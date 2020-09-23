@@ -7,7 +7,9 @@
 [node name="Game" type="Node"]
 
 [node name="MainMenu" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="Exploration" parent="." instance=ExtResource( 2 )]
 
 [node name="Combat" parent="." instance=ExtResource( 1 )]
+visible = false
