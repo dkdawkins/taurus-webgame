@@ -1,4 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://main_scenes/combat/Combat.gd" type="Script" id=1]
+[ext_resource path="res://main_scenes/combat/scripts/UI.gd" type="Script" id=2]
+[ext_resource path="res://main_scenes/combat/scenes/PlayerCombatant.tscn" type="PackedScene" id=3]
+[ext_resource path="res://main_scenes/combat/scripts/TurnQueue.gd" type="Script" id=4]
+[ext_resource path="res://main_scenes/combat/scenes/NonPlayerCombatant.tscn" type="PackedScene" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 20.0
@@ -13,13 +19,18 @@ corner_radius_bottom_left = 20
 shadow_color = Color( 0.203922, 0.313726, 0.435294, 1 )
 
 [node name="Combat" type="Node2D"]
+script = ExtResource( 1 )
+player_combatant_scene = ExtResource( 3 )
+non_player_combatant_scene = ExtResource( 5 )
 
 [node name="UI" type="Control" parent="."]
 margin_right = 800.0
 margin_bottom = 600.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+combatants_node = NodePath("../Combatants")
 
 [node name="PlayerPanel" type="PanelContainer" parent="UI"]
 anchor_left = 0.5
@@ -135,3 +146,14 @@ margin_right = 660.0
 margin_bottom = 14.0
 text = "CharacterName"
 align = 2
+
+[node name="TurnQueue" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Combatants" type="Node2D" parent="."]
+visible = false
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Attack" to="UI" method="_on_Attack_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Special" to="UI" method="_on_Special_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Stance" to="UI" method="_on_Stance_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Item" to="UI" method="_on_Item_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Flee" to="UI" method="_on_Flee_pressed"]
