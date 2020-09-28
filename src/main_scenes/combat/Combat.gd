@@ -3,10 +3,6 @@ extends Node2D
 export (PackedScene) var player_combatant_scene
 export (PackedScene) var non_player_combatant_scene
 
-# Called when the node enters the scene tree for the first time.
-#func _ready():
-#	pass # Replace with function body.
-
 func initialize(combatants_data):
 	#initialize scene nodes/objects
 	var combatant

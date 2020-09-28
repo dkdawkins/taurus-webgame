@@ -3,7 +3,6 @@ extends Control
 export (NodePath) var combatants_node
 const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	combatants_node = get_node(combatants_node)
 

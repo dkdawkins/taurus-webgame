@@ -149,6 +149,7 @@ align = 2
 
 [node name="TurnQueue" type="Node" parent="."]
 script = ExtResource( 4 )
+combatants_node = NodePath("../Combatants")
 
 [node name="Combatants" type="Node2D" parent="."]
 visible = false
