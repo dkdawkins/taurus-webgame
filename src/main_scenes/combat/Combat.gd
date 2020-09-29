@@ -12,7 +12,7 @@ func initialize(combatants_data):
 		elif combatant_data == "Enemy":
 			combatant = non_player_combatant_scene.instance()
 		$Combatants.add_child(combatant)
-		combatant.initialize(150)	#TODO: replace this with combatant_data
+		combatant.initialize(10)	#TODO: replace this with combatant_data; unique identifiers should also be defined
 	$UI.initialize()
 	$TurnQueue.initialize()
 

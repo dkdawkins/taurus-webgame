@@ -1,17 +1,14 @@
 extends "res://main_scenes/combat/scripts/Combatant.gd"
 
+const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-#FOR TESTING ONLY
-func attack(target):
-	#Attack target
-	#End turn
-	pass
+func set_active(isCombatantActive):
+	active = isCombatantActive
+	if active:
+		#Target and attack the first PC found
+		var target
+		for combatant in get_parent().get_children():
+			if combatant is PC:
+				target = combatant
+				break
+		perform_action("attack", target)

@@ -26,6 +26,7 @@ non_player_combatant_scene = ExtResource( 5 )
 [node name="UI" type="Control" parent="."]
 margin_right = 800.0
 margin_bottom = 600.0
+mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -42,6 +43,7 @@ margin_top = -200.0
 margin_right = 350.0
 margin_bottom = -40.0
 rect_clip_content = true
+mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -52,16 +54,19 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 151.0
 margin_bottom = 140.0
+mouse_filter = 2
 size_flags_horizontal = 0
 
 [node name="PrimaryButtons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
 margin_right = 131.0
 margin_bottom = 120.0
+mouse_filter = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons"]
 margin_right = 131.0
 margin_bottom = 106.0
+mouse_filter = 2
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 2
@@ -69,18 +74,21 @@ columns = 2
 [node name="Attack" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
 margin_right = 54.0
 margin_bottom = 22.0
+action_mode = 0
 text = "Attack"
 
 [node name="Special" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
 margin_left = 74.0
 margin_right = 131.0
 margin_bottom = 22.0
+action_mode = 0
 text = "Special"
 
 [node name="Stance" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
 margin_top = 42.0
 margin_right = 54.0
 margin_bottom = 64.0
+action_mode = 0
 text = "Stance"
 
 [node name="Item" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
@@ -88,12 +96,14 @@ margin_left = 74.0
 margin_top = 42.0
 margin_right = 131.0
 margin_bottom = 64.0
+action_mode = 0
 text = "Item"
 
 [node name="Flee" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
 margin_top = 84.0
 margin_right = 54.0
 margin_bottom = 106.0
+action_mode = 0
 text = "Flee"
 
 [node name="SecondaryButtons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
@@ -111,6 +121,7 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 370.0
 margin_bottom = 140.0
+mouse_filter = 2
 size_flags_horizontal = 0
 custom_constants/separation = 350
 
@@ -119,12 +130,14 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 680.0
 margin_bottom = 140.0
+mouse_filter = 2
 alignment = 1
 
 [node name="Character" type="HBoxContainer" parent="UI/PlayerPanel/PlayerInfo"]
 margin_top = 53.0
 margin_right = 660.0
 margin_bottom = 67.0
+mouse_filter = 2
 custom_constants/separation = 40
 alignment = 2
 
