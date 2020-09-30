@@ -2,8 +2,13 @@ extends Node
 
 export (NodePath) var combatants_node
 
+const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
+const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
+
 var queue = [] setget set_queue
 var active_combatant = null setget set_active_combatant
+
+signal queue_finished(pc_state, npc_state)
 
 func _ready():
 	combatants_node = get_node(combatants_node)
@@ -14,21 +19,26 @@ func initialize():
 
 func play_turn():
 	yield(active_combatant, "turn_finished")
+	check_queue_state()
 	get_next_in_queue()
 	play_turn()
 
-#WARNING: function is currently unused
 func remove(combatant):
+	if not queue.has(combatant):
+		print("Error: combatant does not exist in queue")
+		return
 	var new_queue = []
 	for n in queue:
 		new_queue.append(n)
 	new_queue.remove(new_queue.find(combatant))
-	combatant.queue_free() #Deletes node from scene tree
+	#combatant.queue_free() #Deletes node from scene tree (omit this if combatant data is needed post-combat)
 	self.queue = new_queue
 
 func set_queue(node_queue):
 	queue.clear()
 	for combatant in node_queue:
+		if not combatant.is_connected("state_changed", self, "_on_state_changed"):
+			combatant.connect("state_changed", self, "_on_state_changed", [combatant])
 		queue.append(combatant)
 		combatant.active = false
 	if not queue.empty():
@@ -43,7 +53,23 @@ func get_next_in_queue():
 	self.active_combatant = queue[0]
 	return active_combatant #WARNING: this return statement is currently unused
 
+#Checks if there are still player or non-player characters remaining
+func check_queue_state():
+	var hasPCs = false
+	var hasNPCs = false
+	for combatant in queue:
+		if combatant is PC:
+			hasPCs = true
+		elif combatant is NPC:
+			hasNPCs = true
+	if (not hasPCs) or (not hasNPCs):
+		emit_signal("queue_finished", hasPCs, hasNPCs)
+
 func set_active_combatant(new_combatant):
 	active_combatant = new_combatant
 	active_combatant.active = true
 #	emit_signal("active_combatant_changed", active_combatant)
+
+func _on_state_changed(combatant):
+	if combatant.state == combatant.State.DEAD:
+		remove(combatant) #WARNING: this will break if the current active combatant is removed

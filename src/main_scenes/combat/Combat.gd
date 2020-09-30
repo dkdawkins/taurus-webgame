@@ -16,6 +16,9 @@ func initialize(combatants_data):
 	$UI.initialize()
 	$TurnQueue.initialize()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_queue_finished(pc_state, npc_state):
+	#TODO: finish combat
+	if npc_state == false:
+		print("Player won!")
+	else:
+		print("Enemy won!")

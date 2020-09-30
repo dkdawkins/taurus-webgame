@@ -171,3 +171,4 @@ visible = false
 [connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Stance" to="UI" method="_on_Stance_pressed"]
 [connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Item" to="UI" method="_on_Item_pressed"]
 [connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Flee" to="UI" method="_on_Flee_pressed"]
+[connection signal="queue_finished" from="TurnQueue" to="." method="_on_queue_finished"]

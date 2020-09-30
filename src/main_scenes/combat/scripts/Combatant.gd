@@ -1,5 +1,7 @@
 extends Node2D
 
+enum State {ALIVE, DEAD}
+
 #declare default combatant stats here
 var hitPoints = 1
 var maxHitPoints = 1
@@ -7,11 +9,13 @@ var attackPoints = 2
 var defensePoints = 1
 
 var active = false setget set_active
+var state = State.ALIVE setget set_state
 
 signal action_performed(actionDialog)
 signal turn_finished
-signal dead
+#signal dead
 signal hitPoints_changed
+signal state_changed
 
 func initialize(hp):
 	#initialize stats
@@ -21,6 +25,10 @@ func initialize(hp):
 
 func set_active(isCombatantActive):
 	active = isCombatantActive
+
+func set_state(combatantState):
+	state = combatantState
+	emit_signal("state_changed")
 
 func perform_action(actionName, target):
 	#TODO: pull action data dynamically from a resource
@@ -44,4 +52,4 @@ func take_damage(damage):
 		emit_signal("hitPoints_changed")
 	#Signal if dead
 	if hitPoints <= 0:
-		emit_signal("dead")
+		self.state = State.DEAD

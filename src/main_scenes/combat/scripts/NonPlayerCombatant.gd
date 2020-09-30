@@ -6,8 +6,11 @@ func set_active(isCombatantActive):
 	active = isCombatantActive
 	if not active:
 		return
+
+	#Wait for TurnQueue to reach yield statement before performing action
 	$ActionDelay.start()
 	yield($ActionDelay, "timeout")
+	
 	#Target and attack the first PC found
 	var target
 	for combatant in get_parent().get_children():
@@ -15,6 +18,3 @@ func set_active(isCombatantActive):
 			target = combatant
 			break
 	perform_action("attack", target)
-
-##	FOR TESTING ONLY
-#	perform_action("attack", get_parent().get_node("PlayerCombatant"))
