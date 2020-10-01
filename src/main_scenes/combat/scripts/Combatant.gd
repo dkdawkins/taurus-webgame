@@ -5,7 +5,7 @@ enum State {ALIVE, DEAD}
 #declare default combatant stats here
 var hitPoints = 1
 var maxHitPoints = 1
-var attackPoints = 2
+var attackPoints = 5
 var defensePoints = 1
 
 var active = false setget set_active

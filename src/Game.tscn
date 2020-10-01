@@ -17,3 +17,4 @@ combat_scene = NodePath("Combat")
 visible = true
 
 [node name="Combat" parent="." instance=ExtResource( 1 )]
+[connection signal="combat_finished" from="Combat" to="." method="_on_combat_finished"]
