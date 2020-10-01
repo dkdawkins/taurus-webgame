@@ -19,9 +19,9 @@ func initialize():
 
 func play_turn():
 	yield(active_combatant, "turn_finished")
-	check_queue_state()
-	get_next_in_queue()
-	play_turn()
+	if check_queue_state(): #Do not continue unless combat is still in progress
+		get_next_in_queue()
+		play_turn()
 
 func remove(combatant):
 	if not queue.has(combatant):
@@ -64,6 +64,8 @@ func check_queue_state():
 			hasNPCs = true
 	if (not hasPCs) or (not hasNPCs):
 		emit_signal("queue_finished", hasPCs, hasNPCs)
+		return false
+	return true
 
 func set_active_combatant(new_combatant):
 	active_combatant = new_combatant

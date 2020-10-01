@@ -15,7 +15,7 @@ func _ready():
 	remove_child(combat_scene)
 	
 	#FOR TESTING ONLY
-	var combatants = ["Player", "Enemy"]
+	var combatants = ["Enemy", "Player"]
 	start_combat(combatants)
 
 

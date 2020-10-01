@@ -2,6 +2,9 @@ extends "res://main_scenes/combat/scripts/Combatant.gd"
 
 const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
 
+func initialize(hp):
+	.initialize(hp)
+
 func set_active(isCombatantActive):
 	active = isCombatantActive
 	if not active:

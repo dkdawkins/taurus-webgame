@@ -47,5 +47,6 @@ func finish_combat(winners, losers):
 
 func clear_combat():
 	for n in $Combatants.get_children():
+		n.active = false
 		n.queue_free()
 	#TODO: clear combatant information from UI (after dynamic character display is implemented)

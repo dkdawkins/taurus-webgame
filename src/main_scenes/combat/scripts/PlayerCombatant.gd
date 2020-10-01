@@ -1,5 +1,8 @@
 extends "res://main_scenes/combat/scripts/Combatant.gd"
-	
+
+func initialize(hp):
+	.initialize(hp)
+
 func special(target):
 	#Use special ability on target
 	#End turn
