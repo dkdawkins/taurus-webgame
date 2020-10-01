@@ -1,0 +1,28 @@
+{
+	"abilities": 
+	[
+		{
+			"name": "Bite",
+			"target": "Single Enemy",
+			"effect": 
+			{
+				"type": "Damage"
+				"primaryStat": "attackPoints"
+				"multiplier": 1
+			},
+			"sprites": []
+		},
+		{
+			"name": "Prowl",
+			"target": "Self",
+			"effect": 
+			{
+				"type": "Status"
+				"status": "Invulnerable"
+				"length": 1
+			},
+			"sprites": []
+		},
+		
+	]
+}

@@ -1,0 +1,60 @@
+{
+	"enemies": 
+	[
+		{
+			"id": 1,
+			"name": "Wolf",
+			"hp": 10,
+			"ap": 10,
+			"dp": 1,
+			"abilities": [
+				"Bite",
+				"Prowl"
+			],
+			"patterns": [],
+			"sprite": null
+		},
+		{
+			"id": 2,
+			"name": "Bandit",
+			"hp": 20,
+			"ap": 10,
+			"dp": 5,
+			"abilities": [
+				"Slash",
+				"Guard"
+			],
+			"patterns": [],
+			"sprite": null
+		},
+		{
+			"id": 3,
+			"name": "Knight",
+			"hp": 100,
+			"ap": 20,
+			"dp": 5,
+			"abilities": [
+				"Leap",
+				"Shieldbreaker",
+				"Overhead_Slash",
+				"Cleave",
+				"Whirlwind",
+				"Recoil"
+			],
+			"patterns": [
+				[
+					"Leap",
+					"Shieldbreaker",
+					"Recoil"
+				],
+				[
+					"Overhead_Slash",
+					"Cleave",
+					"Whirlwind",
+					"Recoil"
+				]
+			],
+			"sprite": null
+		}
+	]
+}
