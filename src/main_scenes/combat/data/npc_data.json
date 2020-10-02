@@ -2,7 +2,6 @@
 	"enemies": 
 	[
 		{
-			"id": 1,
 			"name": "Wolf",
 			"hp": 10,
 			"ap": 10,
@@ -15,7 +14,6 @@
 			"sprite": null
 		},
 		{
-			"id": 2,
 			"name": "Bandit",
 			"hp": 20,
 			"ap": 10,
@@ -28,7 +26,6 @@
 			"sprite": null
 		},
 		{
-			"id": 3,
 			"name": "Knight",
 			"hp": 100,
 			"ap": 20,
@@ -36,10 +33,9 @@
 			"abilities": [
 				"Leap",
 				"Shieldbreaker",
-				"Overhead_Slash",
+				"Overhead Slash",
 				"Cleave",
-				"Whirlwind",
-				"Recoil"
+				"Whirlwind"
 			],
 			"patterns": [
 				[
@@ -48,10 +44,9 @@
 					"Recoil"
 				],
 				[
-					"Overhead_Slash",
+					"Overhead Slash",
 					"Cleave",
-					"Whirlwind",
-					"Recoil"
+					"Whirlwind"
 				]
 			],
 			"sprite": null
