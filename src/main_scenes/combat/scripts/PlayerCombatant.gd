@@ -1,7 +1,7 @@
 extends "res://main_scenes/combat/scripts/Combatant.gd"
 
-func initialize(hp):
-	.initialize(hp)
+func initialize(data):
+	.initialize(data)
 
 func special(target):
 	#Use special ability on target

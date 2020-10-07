@@ -1,0 +1,13 @@
+{
+	"david": {
+		"name": "David",
+		"hp": 50,
+		"ap": 10,
+		"dp": 5,
+		"basicAttack": "strike",
+		"specialAbilities": [],
+		"stances": [],
+		"items": [],
+		"sprite": null
+	}
+}

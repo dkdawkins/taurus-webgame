@@ -1,0 +1,52 @@
+{
+	"wolf": {
+		"name": "Wolf",
+		"hp": 10,
+		"ap": 10,
+		"dp": 1,
+		"abilities": [
+			"bite",
+			"prowl"
+		],
+		"patterns": [],
+		"sprite": null
+	},
+	"bandit": {
+		"name": "Bandit",
+		"hp": 20,
+		"ap": 10,
+		"dp": 5,
+		"abilities": [
+			"slash",
+			"guard"
+		],
+		"patterns": [],
+		"sprite": null
+	},
+	"knight": {
+		"name": "Knight",
+		"hp": 100,
+		"ap": 20,
+		"dp": 5,
+		"abilities": [
+			"leap",
+			"shieldbreaker",
+			"overhead_slash",
+			"cleave",
+			"whirlwind"
+		],
+		"patterns": [
+			[
+				"leap",
+				"shieldbreaker",
+				"recoil"
+			],
+			[
+				"overhead_slash",
+				"cleave",
+				"whirlwind"
+			]
+		],
+		"sprite": null
+	}
+}

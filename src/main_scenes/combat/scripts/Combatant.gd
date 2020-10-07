@@ -5,7 +5,7 @@ enum State {ALIVE, DEAD}
 #declare default combatant stats here
 var hitPoints = 1
 var maxHitPoints = 1
-var attackPoints = 5
+var attackPoints = 1
 var defensePoints = 1
 
 var active = false setget set_active
@@ -17,11 +17,12 @@ signal turn_finished
 signal hitPoints_changed
 signal state_changed
 
-func initialize(hp):
-	#initialize stats
-	#TODO: get stats from given combatant data
-	hitPoints = hp
-	maxHitPoints = hp
+func initialize(data):
+	hitPoints = data["hp"]
+	maxHitPoints = data["hp"]
+	attackPoints = data["ap"]
+	defensePoints = data["dp"]
+	self.set_name(data["name"])
 
 func set_active(isCombatantActive):
 	active = isCombatantActive

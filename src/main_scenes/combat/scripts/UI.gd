@@ -3,6 +3,7 @@ extends Control
 export (NodePath) var combatants_node
 #export (NodePath) var turn_queue_node
 const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
+const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
 
 func _ready():
 	combatants_node = get_node(combatants_node)
@@ -25,7 +26,16 @@ func _on_Attack_pressed():
 	#combatants_node.get_node("PlayerCombatant").perform_action("attack", combatants_node.get_node("NonPlayerCombatant"))
 	for combatant in combatants_node.get_children():
 		if (combatant.active) and (combatant is PC):
-			combatant.perform_action("attack", combatants_node.get_node("NonPlayerCombatant")) #TODO: implement combatant ids and targeting
+			var target = set_action_target()
+			combatant.perform_action("attack", target) 
+
+
+func set_action_target():
+	#TODO: implement targeting system
+	for combatant in combatants_node.get_children():
+		if combatant is NPC:
+			return combatant
+
 
 func _on_Special_pressed():
 	#Perform Special (variation based on stance)

@@ -8,16 +8,27 @@ const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
 
 signal combat_finished(winners, losers)
 
-func initialize(combatants_data):
-	#initialize scene nodes/objects
+var npc_data
+var pc_data
+var ability_data
+
+func initialize(npc_dict, pc_dict, ability_dict, combatant_keys):
+	npc_data = npc_dict
+	pc_data = pc_dict
+	ability_data = ability_dict
+	
 	var combatant
-	for combatant_data in combatants_data:
-		if combatant_data == "Player":
-			combatant = player_combatant_scene.instance()
-		elif combatant_data == "Enemy":
+	var combatant_data
+	for combatant_key in combatant_keys:
+		#WARNING: Keys must be unique for every enemy/player; otherwise, incorrect data may be loaded
+		if npc_data.has(combatant_key):
 			combatant = non_player_combatant_scene.instance()
+			combatant_data = npc_data[combatant_key]
+		elif pc_data.has(combatant_key):
+			combatant = player_combatant_scene.instance()
+			combatant_data = pc_data[combatant_key]
 		$Combatants.add_child(combatant)
-		combatant.initialize(10)	#TODO: replace this with combatant_data; unique identifiers should also be defined
+		combatant.initialize(combatant_data)
 	$UI.initialize()
 	$TurnQueue.initialize()
 
