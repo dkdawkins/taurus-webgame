@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://main_scenes/combat/Combat.gd" type="Script" id=1]
 [ext_resource path="res://main_scenes/combat/scripts/UI.gd" type="Script" id=2]
 [ext_resource path="res://main_scenes/combat/scenes/PlayerCombatant.tscn" type="PackedScene" id=3]
 [ext_resource path="res://main_scenes/combat/scripts/TurnQueue.gd" type="Script" id=4]
 [ext_resource path="res://main_scenes/combat/scenes/NonPlayerCombatant.tscn" type="PackedScene" id=5]
+[ext_resource path="res://main_scenes/combat/scenes/CharacterDisplay.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 20.0
@@ -32,6 +33,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 combatants_node = NodePath("../Combatants")
+character_info_scene = ExtResource( 6 )
 
 [node name="PlayerPanel" type="PanelContainer" parent="UI"]
 anchor_left = 0.5
@@ -131,34 +133,8 @@ margin_top = 20.0
 margin_right = 680.0
 margin_bottom = 140.0
 mouse_filter = 2
+custom_constants/separation = 15
 alignment = 1
-
-[node name="Character" type="HBoxContainer" parent="UI/PlayerPanel/PlayerInfo"]
-margin_top = 53.0
-margin_right = 660.0
-margin_bottom = 67.0
-mouse_filter = 2
-custom_constants/separation = 40
-alignment = 2
-
-[node name="Status" type="Label" parent="UI/PlayerPanel/PlayerInfo/Character"]
-margin_left = 333.0
-margin_right = 413.0
-margin_bottom = 14.0
-text = "StanceName"
-
-[node name="Health" type="Label" parent="UI/PlayerPanel/PlayerInfo/Character"]
-margin_left = 453.0
-margin_right = 522.0
-margin_bottom = 14.0
-text = "1000/1000"
-
-[node name="Name" type="Label" parent="UI/PlayerPanel/PlayerInfo/Character"]
-margin_left = 562.0
-margin_right = 660.0
-margin_bottom = 14.0
-text = "CharacterName"
-align = 2
 
 [node name="TurnQueue" type="Node" parent="."]
 script = ExtResource( 4 )

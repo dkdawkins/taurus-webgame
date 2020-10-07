@@ -9,5 +9,16 @@
 		"stances": [],
 		"items": [],
 		"sprite": null
+	},
+	"ken": {
+		"name": "Ken",
+		"hp": 30,
+		"ap": 15,
+		"dp": 3,
+		"basicAttack": "strike",
+		"specialAbilities": [],
+		"stances": [],
+		"items": [],
+		"sprite": null
 	}
 }
