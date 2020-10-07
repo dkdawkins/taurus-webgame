@@ -2,8 +2,8 @@ extends Node
 
 export (NodePath) var combatants_node
 
-const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
-const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
+#const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
+#const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
 
 var queue = [] setget set_queue
 var active_combatant = null setget set_active_combatant
@@ -58,9 +58,9 @@ func check_queue_state():
 	var hasPCs = false
 	var hasNPCs = false
 	for combatant in queue:
-		if combatant is PC:
+		if combatant.is_in_group("Players"):
 			hasPCs = true
-		elif combatant is NPC:
+		elif combatant.is_in_group("Enemies"):
 			hasNPCs = true
 	if (not hasPCs) or (not hasNPCs):
 		emit_signal("queue_finished", hasPCs, hasNPCs)

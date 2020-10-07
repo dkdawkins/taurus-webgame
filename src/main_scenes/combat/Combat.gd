@@ -3,8 +3,8 @@ extends Node2D
 export (PackedScene) var player_combatant_scene
 export (PackedScene) var non_player_combatant_scene
 
-const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
-const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
+#const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
+#const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
 
 signal combat_finished(winners, losers)
 
@@ -23,9 +23,11 @@ func initialize(npc_dict, pc_dict, ability_dict, combatant_keys):
 		#WARNING: Keys must be unique for every enemy/player; otherwise, incorrect data may be loaded
 		if npc_data.has(combatant_key):
 			combatant = non_player_combatant_scene.instance()
+			combatant.add_to_group("Enemies")
 			combatant_data = npc_data[combatant_key]
 		elif pc_data.has(combatant_key):
 			combatant = player_combatant_scene.instance()
+			combatant.add_to_group("Players")
 			combatant_data = pc_data[combatant_key]
 		$Combatants.add_child(combatant)
 		combatant.initialize(combatant_data)
@@ -39,15 +41,15 @@ func _on_queue_finished(pc_won, npc_won):
 	var losers = []
 	if pc_won:
 		for combatant in $Combatants.get_children():
-			if combatant is PC:
+			if combatant.is_in_group("Players"):
 				winners.append(combatant)
-			elif combatant is NPC:
+			elif combatant.is_in_group("Enemies"):
 				losers.append(combatant)
 	elif npc_won:
 		for combatant in $Combatants.get_children():
-			if combatant is PC:
+			if combatant.is_in_group("Players"):
 				losers.append(combatant)
-			elif combatant is NPC:
+			elif combatant.is_in_group("Enemies"):
 				winners.append(combatant)
 	finish_combat(winners, losers)
 

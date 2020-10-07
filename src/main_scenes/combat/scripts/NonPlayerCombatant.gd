@@ -1,9 +1,16 @@
 extends "res://main_scenes/combat/scripts/Combatant.gd"
 
-const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
+#const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
+
+var combatActions = []
+var actionPatterns = []
 
 func initialize(data):
 	.initialize(data)
+	for ability in data["abilities"]:
+		combatActions.append(ability)
+	for pattern in data["patterns"]:
+		actionPatterns.append(pattern)
 
 func set_active(isCombatantActive):
 	active = isCombatantActive
@@ -14,10 +21,34 @@ func set_active(isCombatantActive):
 	$ActionDelay.start()
 	yield($ActionDelay, "timeout")
 	
-	#Target and attack the first PC found
-	var target
-	for combatant in get_parent().get_children():
-		if combatant is PC:
-			target = combatant
-			break
-	perform_action("attack", target)
+	perform_action("attack")
+
+
+func get_targets(type):
+	var targets = []
+	
+	match type:
+		"Self":
+			targets.append(self)
+		"Single Enemy":
+			#TODO: randomize selected character
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Players"):
+					targets.append(combatant)
+					break
+		"All enemies":
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Players"):
+					targets.append(combatant)
+		"Single Ally":
+			#TODO: randomize selected character
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Enemies"):
+					targets.append(combatant)
+					break
+		"All allies":
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Enemies"):
+					targets.append(combatant)
+	
+	return targets

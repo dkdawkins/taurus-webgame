@@ -31,14 +31,20 @@ func set_state(combatantState):
 	state = combatantState
 	emit_signal("state_changed")
 
-func perform_action(actionName, target):
-	#TODO: pull action data dynamically from a resource
+func perform_action(actionName):
+	#Determine action from ability_data
+	#Select target if necessary
+	#Apply action effects
+	#End turn
+
+	#FOR TESTING ONLY###################
 	var actionDamage = attackPoints
-	#TODO: implement other combat actions
-	if actionName == "attack":
+	var targets = get_targets("Single Enemy")
+	for target in targets:
 		target.take_damage(actionDamage)
-	emit_signal("action_performed", str(self.name + " attacked " + target.name + "!"))
+		emit_signal("action_performed", str(self.name + " attacked " + targets[0].name + "!"))
 	emit_signal("turn_finished")
+	####################################
 
 func take_damage(damage):
 	var actualDamage = damage - defensePoints
@@ -54,3 +60,8 @@ func take_damage(damage):
 	#Signal if dead
 	if hitPoints <= 0:
 		self.state = State.DEAD
+
+
+func get_targets(type):
+	print("Base get_target function called; this should not happen")
+	pass
