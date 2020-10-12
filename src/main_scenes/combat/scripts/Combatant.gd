@@ -34,23 +34,36 @@ func set_state(combatantState):
 	emit_signal("state_changed")
 
 func perform_action(actionName):
-	#Determine action from ability_data (Also look for basicAttack)
-#	if not ability_data.has(actionName):
-#		print("Error: ")
-	
-	#Select target if necessary
-	#Apply action effects
-	#End turn
-
-	#FOR TESTING ONLY###################
-	print(actionName)
-	var actionDamage = attackPoints
-	var targets = get_targets("Single Enemy")
-	for target in targets:
-		target.take_damage(actionDamage)
-		emit_signal("action_performed", str(self.name + " attacked " + targets[0].name + "!"))
+	var action = ability_data[actionName]
+	#TODO: display action animation
+	for effect in action["effects"]:
+		match effect["type"]:
+			"Damage":
+				apply_damage_effect(effect)
+			"Heal":
+				apply_heal_effect(effect)
+			"Status":
+				apply_status_effect(effect)
+			"Buff":
+				apply_buff_effect(effect)
+	print(str(self.name + " used " + actionName))	#FOR TESTING ONLY
 	emit_signal("turn_finished")
-	####################################
+
+func apply_damage_effect(effect):
+	var actionDamage = attackPoints * (effect["modifier"] / 50) #TODO: improve damage calculation
+	var targets = get_targets(effect["target"])
+	for n in range(effect["numHits"]):
+		for target in targets:
+			target.take_damage(actionDamage)
+
+func apply_heal_effect(effect):
+	pass
+
+func apply_status_effect(effect):
+	pass
+
+func apply_buff_effect(effect):
+	pass
 
 func take_damage(damage):
 	var actualDamage = damage - defensePoints

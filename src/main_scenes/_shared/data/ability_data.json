@@ -1,56 +1,48 @@
 {
 	"strike": {
 		"name": "Strike",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat"
+				"modifier": 50
 			}
 		],
 		"sprites": []
 	},
 	"relentless_strikes": {
 		"name": "Relentless Strikes",
-		"cooldown": 3,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 2,
-				"calculation": "primaryStat*0.75"
+				"modifier": 30
 			},
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat*1.5"
+				"modifier": 60
 			}
 		],
 		"sprites": []
 	},
 	"bite": {
 		"name": "Bite",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat"
+				"modifier": 50
 			}
 		],
 		"sprites": []
 	},
 	"prowl": {
 		"name": "Prowl",
-		"cooldown": 2,
 		"effects": [
 			{
 				"type": "Status",
@@ -65,21 +57,18 @@
 	},
 	"slash": {
 		"name": "Slash",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat"
+				"modifier": 50
 			}
 		],
 		"sprites": []
 	},
 	"guard": {
 		"name": "Guard",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Buff",
@@ -94,7 +83,6 @@
 	},
 	"leap": {
 		"name": "Leap",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Status",
@@ -109,14 +97,12 @@
 	},
 	"shieldbreaker": {
 		"name": "Shieldbreaker",
-		"cooldown": 1,
 		"effects":  [
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat*4"
+				"modifier": 200
 			},
 			{
 				"type": "Status",
@@ -131,42 +117,36 @@
 	},
 	"overhead_slash": {
 		"name": "Overhead Slash",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat+5"
+				"modifier": 60
 			}
 		],
 		"sprites": []
 	},
 	"cleave": {
 		"name": "Cleave",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "All Enemies",
-				"primaryStat": "attackPoints",
 				"numHits": 1,
-				"calculation": "primaryStat"
+				"modifier": 50
 			}
 		],
 		"sprites": []
 	},
 	"whirlwind": {
 		"name": "Whirlwind",
-		"cooldown": 1,
 		"effects": [
 			{
 				"type": "Damage",
 				"target": "All Enemies",
-				"primaryStat": "attackPoints",
 				"numHits": 4,
-				"calculation": "primaryStat"
+				"modifier": 40
 			},
 			{
 				"type": "Status",
