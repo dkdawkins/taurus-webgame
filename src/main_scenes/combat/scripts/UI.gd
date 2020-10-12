@@ -22,22 +22,22 @@ func initialize():
 
 
 func set_single_target(type):
-	#TODO: implement targeting system
+	#TODO: replace below code with proper UI targeting system
 	match type:
 		"Single Enemy":
 			for combatant in combatants_node.get_children():
-				if combatant.is_in_group("Enemies"):
+				if combatant.is_in_group("Enemies") and combatant.state == combatant.State.ALIVE:
 					return combatant
 		"Single Ally":
 			for combatant in combatants_node.get_children():
-				if combatant.is_in_group("Players"):
+				if combatant.is_in_group("Players") and combatant.state == combatant.State.ALIVE:
 					return combatant
 
 
 func _on_Attack_pressed():
 	for combatant in combatants_node.get_children():
 		if (combatant.active) and (combatant.is_in_group("Players")):
-			combatant.perform_action("attack") #TODO: replace with basic attack action
+			combatant.attack()
 			return
 
 

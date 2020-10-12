@@ -11,6 +11,7 @@ var ability_data
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_data()
+	randomize() #Set seed for any random number calls
 	
 	main_menu = get_node(main_menu)
 	exploration_scene = get_node(exploration_scene)
@@ -24,7 +25,7 @@ func _ready():
 	##################
 	
 #	print(str(npc_data["wolf"]["name"], " used ", ability_data["bite"]["name"], "!"))
-	var combatants = ["wolf", "david", "ken"] #Keys corresponding to dict objects in npc_data or pc_data
+	var combatants = ["knight", "david", "ken"] #Keys corresponding to dict objects in npc_data or pc_data
 	start_combat(combatants)
 	
 	##################

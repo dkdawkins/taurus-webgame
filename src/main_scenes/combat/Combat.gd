@@ -30,7 +30,7 @@ func initialize(npc_dict, pc_dict, ability_dict, combatant_keys):
 			combatant.add_to_group("Players")
 			combatant_data = pc_data[combatant_key]
 		$Combatants.add_child(combatant)
-		combatant.initialize(combatant_data)
+		combatant.initialize(combatant_data, ability_data)
 	$UI.initialize()
 	$TurnQueue.initialize()
 

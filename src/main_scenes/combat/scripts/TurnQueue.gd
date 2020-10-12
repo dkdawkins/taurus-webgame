@@ -41,10 +41,10 @@ func set_queue(node_queue):
 			combatant.connect("state_changed", self, "_on_state_changed", [combatant])
 		queue.append(combatant)
 		combatant.active = false
-	if not queue.empty():
+	if (not queue.empty()) and (active_combatant == null):
 		self.active_combatant = queue[0]
-	else:
-		print("Error: Cannot set active combatant; no combatants have been defined in node_queue")
+#	else:
+#		print("Error: Cannot set active combatant; no combatants have been defined in node_queue")
 
 func get_next_in_queue():
 	var previous_combatant = queue.pop_front()
