@@ -5,6 +5,3 @@
 
 [node name="NonPlayerCombatant" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-
-[node name="ActionDelay" type="Timer" parent="." index="1"]
-wait_time = 0.5

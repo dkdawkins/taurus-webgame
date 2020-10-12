@@ -38,6 +38,7 @@ func _on_Attack_pressed():
 	for combatant in combatants_node.get_children():
 		if (combatant.active) and (combatant.is_in_group("Players")):
 			combatant.perform_action("attack") #TODO: replace with basic attack action
+			return
 
 
 func _on_Special_pressed():

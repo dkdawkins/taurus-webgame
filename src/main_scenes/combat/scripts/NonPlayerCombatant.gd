@@ -16,10 +16,9 @@ func set_active(isCombatantActive):
 	active = isCombatantActive
 	if not active:
 		return
-
-	#Wait for TurnQueue to reach yield statement before performing action
-	$ActionDelay.start()
-	yield($ActionDelay, "timeout")
+	
+	#Wait for TurnQueue
+	yield(get_tree().create_timer(0.5), "timeout")
 	
 	perform_action("attack")
 
