@@ -49,20 +49,34 @@ func get_targets(type):
 			targets.append(self)
 		"Single Enemy":
 			#TODO: randomize selected character
+			if lastTarget != null:
+				if lastTarget.is_in_group("Players"):
+					targets.append(lastTarget)
+					print("lastTarget returned")
+					return targets
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
 					targets.append(combatant)
+					lastTarget = combatant
+					print("lastTarget set")
+					break
+		"Single Ally":
+			#TODO: randomize selected character
+			if lastTarget != null:
+				if lastTarget.is_in_group("Enemies"):
+					targets.append(lastTarget)
+					print("lastTarget returned")
+					return targets
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
+					targets.append(combatant)
+					lastTarget = combatant
+					print("lastTarget set")
 					break
 		"All enemies":
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
 					targets.append(combatant)
-		"Single Ally":
-			#TODO: randomize selected character
-			for combatant in get_parent().get_children():
-				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
-					targets.append(combatant)
-					break
 		"All allies":
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:

@@ -5,8 +5,14 @@
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 50
+				"modifier": 50,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			}
 		],
 		"sprites": []
@@ -17,14 +23,26 @@
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 2,
-				"modifier": 30
+				"modifier": 30,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			},
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 60
+				"modifier": 60,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			}
 		],
 		"sprites": []
@@ -35,8 +53,14 @@
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 50
+				"modifier": 50,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			}
 		],
 		"sprites": []
@@ -45,11 +69,15 @@
 		"name": "Prowl",
 		"effects": [
 			{
-				"type": "Status",
+				"type": "Buff",
 				"target": "Self",
-				"status": "Invulnerable",
+				"statAffected": "evadeChance",
+				"numHits": 1,
+				"modifier": 100,
 				"length": 1,
-				"cancelCondition": "Damage",
+				"cancelEffect": "Damage",
+				"turnSkipped": false,
+				"unlockedAbilities": [],
 				"icon": null
 			}
 		],
@@ -61,8 +89,14 @@
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 50
+				"modifier": 50,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			}
 		],
 		"sprites": []
@@ -73,9 +107,13 @@
 			{
 				"type": "Buff",
 				"target": "Self",
-				"buffStat": "defensePoints",
-				"calculation": "buffStat*2",
+				"statAffected": "defensePoints",
+				"numHits": 1,
+				"modifier": 100,
 				"length": 1,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
 				"icon": null
 			}
 		],
@@ -85,11 +123,15 @@
 		"name": "Leap",
 		"effects": [
 			{
-				"type": "Status",
+				"type": "Buff",
 				"target": "Self",
-				"status": "Invulnerable",
+				"statAffected": "evadeChance",
+				"numHits": 1,
+				"modifier": 100,
 				"length": 1,
-				"cancelCondition": null,
+				"cancelEffect": "Damage",
+				"turnSkipped": false,
+				"unlockedAbilities": [],
 				"icon": null
 			}
 		],
@@ -101,15 +143,25 @@
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 200
+				"modifier": 200,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			},
 			{
 				"type": "Status",
 				"target": "Self",
-				"status": "Recoil",
+				"statAffected": null,
+				"numHits": 1,
+				"modifier": null,
 				"length": 1,
-				"cancelCondition": null,
+				"cancelEffect": null,
+				"turnSkipped": true,
+				"unlockedAbilities": [],
 				"icon": null
 			}
 		],
@@ -121,8 +173,14 @@
 			{
 				"type": "Damage",
 				"target": "Single Enemy",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 60
+				"modifier": 60,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			}
 		],
 		"sprites": []
@@ -133,8 +191,14 @@
 			{
 				"type": "Damage",
 				"target": "All Enemies",
+				"statAffected": "hitPoints",
 				"numHits": 1,
-				"modifier": 50
+				"modifier": 50,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			}
 		],
 		"sprites": []
@@ -145,15 +209,25 @@
 			{
 				"type": "Damage",
 				"target": "All Enemies",
+				"statAffected": "hitPoints",
 				"numHits": 4,
-				"modifier": 40
+				"modifier": 40,
+				"length": 0,
+				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
 			},
 			{
 				"type": "Status",
 				"target": "Self",
-				"status": "Recoil",
+				"statAffected": null,
+				"numHits": 1,
+				"modifier": null,
 				"length": 1,
-				"cancelCondition": null,
+				"cancelEffect": null,
+				"turnSkipped": true,
+				"unlockedAbilities": [],
 				"icon": null
 			}
 		],

@@ -40,20 +40,36 @@ func flee():
 func get_targets(type):
 	var targets = []
 	
-	if type == "Single Enemy" or type == "Single Ally":
-		var target = get_node("../../UI").set_single_target(type)
-		targets.append(target)
-	else:
-		match type:
-			"Self":
-				targets.append(self)
-			"All Enemies":
-				for combatant in get_parent().get_children():
-					if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
-						targets.append(combatant)
-			"All Allies":
-				for combatant in get_parent().get_children():
-					if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
-						targets.append(combatant)
+	match type:
+		"Self":
+			targets.append(self)
+		"Single Enemy":
+			if lastTarget != null:
+				if lastTarget.is_in_group("Enemies"):
+					targets.append(lastTarget)
+					print("lastTarget returned")
+					return targets
+			var target = get_node("../../UI").set_single_enemy_target()
+			targets.append(target)
+			lastTarget = target
+			print("lastTarget set")
+		"Single Ally":
+			if lastTarget != null:
+				if lastTarget.is_in_group("Players"):
+					targets.append(lastTarget)
+					print("lastTarget returned")
+					return targets
+			var target = get_node("../../UI").set_single_ally_target()
+			targets.append(target)
+			lastTarget = target
+			print("lastTarget set")
+		"All Enemies":
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
+					targets.append(combatant)
+		"All Allies":
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
+					targets.append(combatant)
 	
 	return targets

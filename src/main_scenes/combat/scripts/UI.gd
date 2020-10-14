@@ -21,18 +21,17 @@ func initialize():
 			$PlayerPanel/PlayerInfo.add_child(character_info)
 
 
-func set_single_target(type):
+func set_single_enemy_target():
 	#TODO: replace below code with proper UI targeting system
-	match type:
-		"Single Enemy":
-			for combatant in combatants_node.get_children():
-				if combatant.is_in_group("Enemies") and combatant.state == combatant.State.ALIVE:
-					return combatant
-		"Single Ally":
-			for combatant in combatants_node.get_children():
-				if combatant.is_in_group("Players") and combatant.state == combatant.State.ALIVE:
-					return combatant
+	for combatant in combatants_node.get_children():
+		if combatant.is_in_group("Enemies") and combatant.state == combatant.State.ALIVE:
+			return combatant
 
+func set_single_ally_target():
+	#TODO: replace below code with proper UI targeting system
+	for combatant in combatants_node.get_children():
+		if combatant.is_in_group("Players") and combatant.state == combatant.State.ALIVE:
+			return combatant
 
 func _on_Attack_pressed():
 	for combatant in combatants_node.get_children():

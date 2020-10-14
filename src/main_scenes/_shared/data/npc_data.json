@@ -4,6 +4,7 @@
 		"hp": 10,
 		"ap": 10,
 		"dp": 1,
+		"ec": 10,
 		"abilities": [
 			"bite",
 			"prowl"
@@ -16,6 +17,7 @@
 		"hp": 20,
 		"ap": 10,
 		"dp": 5,
+		"ec": 0,
 		"abilities": [
 			"slash",
 			"guard"
@@ -28,6 +30,7 @@
 		"hp": 100,
 		"ap": 20,
 		"dp": 5,
+		"ec": 0,
 		"abilities": [
 			"leap",
 			"shieldbreaker",
