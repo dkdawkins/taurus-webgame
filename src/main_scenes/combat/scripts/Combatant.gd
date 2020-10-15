@@ -32,6 +32,16 @@ func initialize(combatant_stats, ability_dict):
 
 func set_active(isCombatantActive):
 	active = isCombatantActive
+	#Update status durations and expire statuses that reach zero
+	if active:
+		var statusesToRemove = []
+		for status in statuses:
+			status["length"] -= 1
+			if status["length"] <= 0:
+				expire_status(status)
+				statusesToRemove.append(status)
+		for status in statusesToRemove:
+			statuses.erase(status)
 
 func set_state(combatantState):
 	state = combatantState
@@ -43,59 +53,36 @@ func perform_action(actionName):
 	for effect in action["effects"]:
 		var targets = get_targets(effect["target"])
 		for target in targets:
-			match effect["type"]:
-				#TODO: add a separate function for damage, heal, and stat calculations
-				"Damage":
-					for n in range(effect["numHits"]):
-						#TODO: check evasion and update statuses
-						target.take_damage((attackPoints*(effect["modifier"]/50)))
-				"Heal":
-					#TODO: update statuses
-					target.heal_damage((attackPoints*(effect["modifier"]/50)))
-				"Debuff":
-					continue
-				"Buff":
-					match effect["statAffected"]:
-						"hitPoints":
-							target.hitPoints = hitPoints*(effect["modifier"]/50)
-							emit_signal("hitPoints_changed")
-						"maxHitPoints": 
-							target.maxHitPoints = maxHitPoints*(effect["modifier"]/50)
-							emit_signal("hitPoints_changed")
-						"attackPoints": 
-							target.attackPoints = attackPoints*(effect["modifier"]/50)
-						"defensePoints": 
-							target.defensePoints = defensePoints*(effect["modifier"]/50)
-						"evadeChance": 
-							target.evadeChance += effect["modifier"]
+			for n in range(effect["numHits"]):
+				match effect["statAffected"]:
+					"hitPoints":
+						if effect["type"] == "Damage":
+							target.take_damage(attackPoints*(effect["modifier"]/50))
+						elif effect["type"] == "Heal":
+							target.heal_damage(attackPoints*(effect["modifier"]/50))
+					"maxHitPoints":
+						target.maxHitPoints = maxHitPoints*(effect["modifier"]/50)
+						emit_signal("hitPoints_changed")
+					"attackPoints": 
+						target.attackPoints = attackPoints*(effect["modifier"]/50)
+					"defensePoints": 
+						target.defensePoints = defensePoints*(effect["modifier"]/50)
+					"evadeChance": 
+						target.evadeChance += effect["modifier"]
+				#Check target for statuses that this effect removes
+				for status in target.statuses:
+					if status["cancelEffect"] == effect["type"]:
+						target.expire_status(status)
+						print(str(status["type"] + " stripped from target!"))	#FOR TESTING
+						target.statuses.erase(status)
+						break
+				#Add any lingering effects to the target
+				if effect["length"] > 0:
 					target.statuses.append(effect.duplicate(true))
-				"Stance":
-					pass
-				"Status":
-					target.statuses.append(effect.duplicate(true))
-		
+	
 	lastTarget = null
 	print(str(self.name + " used " + actionName))	#FOR TESTING ONLY
 	emit_signal("turn_finished")
-
-#func apply_damage_effect(effect):
-#	var actionDamage = attackPoints * (effect["modifier"] / 50) #TODO: improve damage calculation
-#	var targets = get_targets(effect["target"])
-#	for n in range(effect["numHits"]):
-#		for target in targets:
-#			target.take_damage(actionDamage)
-#
-#func apply_heal_effect(effect):
-#	var actionHeal = attackPoints * (effect["modifier"] / 50) #TODO: improve heal calculation
-#	var targets = get_targets(effect["target"])
-#	for target in targets:
-#		target.heal_damage(actionHeal)
-#
-#func apply_status_effect(effect):
-#	pass
-#
-#func apply_buff_effect(effect):
-#	pass
 
 func take_damage(damage):
 	var actualDamage = damage - defensePoints
@@ -117,8 +104,24 @@ func heal_damage(heal):
 		
 		#TODO: Play animations/sounds
 
+#Reverses the effects of the given status
 func expire_status(status):
-	pass
-	
+	for n in range(status["numHits"]):
+		match status["statAffected"]:
+			"hitPoints":
+				if status["type"] == "Damage":
+					heal_damage(attackPoints*(status["modifier"]/50))
+				elif status["type"] == "Heal":
+					take_damage(attackPoints*(status["modifier"]/50))
+			"maxHitPoints":
+				maxHitPoints = maxHitPoints/(status["modifier"]/50)
+				emit_signal("hitPoints_changed")
+			"attackPoints": 
+				attackPoints = attackPoints/(status["modifier"]/50)
+			"defensePoints": 
+				defensePoints = defensePoints/(status["modifier"]/50)
+			"evadeChance": 
+				evadeChance -= status["modifier"]
+
 func get_targets(_type):
 	print("Base get_target function called; this should not happen")
