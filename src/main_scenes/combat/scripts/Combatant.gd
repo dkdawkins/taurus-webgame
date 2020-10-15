@@ -62,6 +62,8 @@ func perform_action(actionName):
 							target.heal_damage(attackPoints*(effect["modifier"]/50))
 					"maxHitPoints":
 						target.maxHitPoints = maxHitPoints*(effect["modifier"]/50)
+						if target.maxHitPoints < target.hitPoints:
+							target.hitPoints = target.maxHitPoints
 						emit_signal("hitPoints_changed")
 					"attackPoints": 
 						target.attackPoints = attackPoints*(effect["modifier"]/50)
@@ -85,15 +87,18 @@ func perform_action(actionName):
 	emit_signal("turn_finished")
 
 func take_damage(damage):
-	var actualDamage = damage - defensePoints
-	if actualDamage > 0:
-		hitPoints -= actualDamage
-		
-		#TODO: Play animations/sounds
-		
-		emit_signal("hitPoints_changed")
-		if hitPoints <= 0:
-			self.state = State.DEAD
+	if (randi() % 100) >= evadeChance:
+		var actualDamage = damage - defensePoints
+		if actualDamage > 0:
+			hitPoints -= actualDamage
+			
+			#TODO: Play animations/sounds
+			
+			emit_signal("hitPoints_changed")
+			if hitPoints <= 0:
+				self.state = State.DEAD
+	else:
+		print(str(self.name + " evaded the attack!"))	#FOR TESTING
 
 func heal_damage(heal):
 	if heal > 0:
@@ -108,13 +113,15 @@ func heal_damage(heal):
 func expire_status(status):
 	for n in range(status["numHits"]):
 		match status["statAffected"]:
-			"hitPoints":
-				if status["type"] == "Damage":
-					heal_damage(attackPoints*(status["modifier"]/50))
-				elif status["type"] == "Heal":
-					take_damage(attackPoints*(status["modifier"]/50))
+#			"hitPoints":
+#				if status["type"] == "Damage":
+#					heal_damage(attackPoints*(status["modifier"]/50))
+#				elif status["type"] == "Heal":
+#					take_damage(attackPoints*(status["modifier"]/50))
 			"maxHitPoints":
 				maxHitPoints = maxHitPoints/(status["modifier"]/50)
+				if maxHitPoints < hitPoints:
+					hitPoints = maxHitPoints
 				emit_signal("hitPoints_changed")
 			"attackPoints": 
 				attackPoints = attackPoints/(status["modifier"]/50)

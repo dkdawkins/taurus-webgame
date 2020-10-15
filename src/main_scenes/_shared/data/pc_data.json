@@ -13,9 +13,9 @@
 	},
 	"ken": {
 		"name": "Ken",
-		"hp": 30,
-		"ap": 15,
-		"dp": 3,
+		"hp": 50,
+		"ap": 10,
+		"dp": 5,
 		"ec": 0,
 		"basicAttack": "strike",
 		"specialAbilities": [],
