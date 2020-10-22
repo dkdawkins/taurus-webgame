@@ -41,23 +41,50 @@ func _on_Attack_pressed():
 
 
 func _on_Special_pressed():
-	#Perform Special (variation based on stance)
-	pass # Replace with function body.
+	#Add Secondary buttons for each special in combatant.specials
+	for combatant in combatants_node.get_children():
+		if (combatant.active) and (combatant.is_in_group("Players")):
+			$PlayerPanel/HBoxContainer/Buttons.hide()
+			for special in combatant.specialAbilities:
+				var button = ToolButton.new()
+				button.name = special
+				button.text = special	#TODO: pull name from ability dict
+				button.connect("button_down", self, "_on_Secondary_pressed", [button.name])
+				$PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer.add_child(button)
+				button.show()
+			$PlayerPanel/HBoxContainer/SecondaryButtons.show()
+			return
 
 
 func _on_Stance_pressed():
-	#Open Stance menu
+#	$PlayerPanel/HBoxContainer/Buttons.hide()
+#	$PlayerPanel/HBoxContainer/SecondaryButtons.show()
 	pass # Replace with function body.
 
 
 func _on_Item_pressed():
-	#Open Item menu (or use potion if this version only has potion items)
+	#Show Item menu (or use potion if this version only has potion items)
 	pass # Replace with function body.
 
 
 func _on_Flee_pressed():
 	#Escape from battle
 	pass # Replace with function body.
+
+
+func _on_Back_pressed():
+	#WARNING: assumes a player character is active, since the secondary menu was accessed
+	for button in $PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer.get_children():
+		if button.name != "Back":
+			button.queue_free()
+	$PlayerPanel/HBoxContainer/SecondaryButtons.hide()
+	$PlayerPanel/HBoxContainer/Buttons.show()
+
+
+func _on_Secondary_pressed(name):
+	#Perform secondary action
+	pass
+
 
 func _on_hitPoints_changed(combatant):
 	if combatant.is_in_group("Players"):

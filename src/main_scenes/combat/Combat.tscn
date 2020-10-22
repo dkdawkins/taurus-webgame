@@ -59,13 +59,13 @@ margin_bottom = 140.0
 mouse_filter = 2
 size_flags_horizontal = 0
 
-[node name="PrimaryButtons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
+[node name="Buttons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
 margin_right = 131.0
 margin_bottom = 120.0
 mouse_filter = 2
 scroll_horizontal_enabled = false
 
-[node name="GridContainer" type="GridContainer" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons"]
+[node name="GridContainer" type="GridContainer" parent="UI/PlayerPanel/HBoxContainer/Buttons"]
 margin_right = 131.0
 margin_bottom = 106.0
 mouse_filter = 2
@@ -73,27 +73,27 @@ custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 2
 
-[node name="Attack" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
+[node name="Attack" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
 margin_right = 54.0
 margin_bottom = 22.0
 action_mode = 0
 text = "Attack"
 
-[node name="Special" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
+[node name="Special" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
 margin_left = 74.0
 margin_right = 131.0
 margin_bottom = 22.0
 action_mode = 0
 text = "Special"
 
-[node name="Stance" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
+[node name="Stance" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
 margin_top = 42.0
 margin_right = 54.0
 margin_bottom = 64.0
 action_mode = 0
 text = "Stance"
 
-[node name="Item" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
+[node name="Item" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
 margin_left = 74.0
 margin_top = 42.0
 margin_right = 131.0
@@ -101,7 +101,7 @@ margin_bottom = 64.0
 action_mode = 0
 text = "Item"
 
-[node name="Flee" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer"]
+[node name="Flee" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
 margin_top = 84.0
 margin_right = 54.0
 margin_bottom = 106.0
@@ -110,13 +110,21 @@ text = "Flee"
 
 [node name="SecondaryButtons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
 visible = false
+margin_right = 42.0
 margin_bottom = 120.0
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="UI/PlayerPanel/HBoxContainer/SecondaryButtons"]
+margin_right = 42.0
+margin_bottom = 22.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 2
+
+[node name="Back" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer"]
+margin_right = 42.0
+margin_bottom = 22.0
+text = "Back"
 
 [node name="VSeparator" type="VSeparator" parent="UI/PlayerPanel"]
 margin_left = 20.0
@@ -142,9 +150,10 @@ combatants_node = NodePath("../Combatants")
 
 [node name="Combatants" type="Node2D" parent="."]
 visible = false
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Attack" to="UI" method="_on_Attack_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Special" to="UI" method="_on_Special_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Stance" to="UI" method="_on_Stance_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Item" to="UI" method="_on_Item_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/PrimaryButtons/GridContainer/Flee" to="UI" method="_on_Flee_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Attack" to="UI" method="_on_Attack_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Special" to="UI" method="_on_Special_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Stance" to="UI" method="_on_Stance_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Item" to="UI" method="_on_Item_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Flee" to="UI" method="_on_Flee_pressed"]
+[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer/Back" to="UI" method="_on_Back_pressed"]
 [connection signal="queue_finished" from="TurnQueue" to="." method="_on_queue_finished"]

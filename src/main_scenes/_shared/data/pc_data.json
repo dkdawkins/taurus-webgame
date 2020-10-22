@@ -6,7 +6,7 @@
 		"dp": 5,
 		"ec": 0,
 		"basicAttack": "strike",
-		"specialAbilities": [],
+		"specialAbilities": ["relentless_strikes"],
 		"stances": [],
 		"items": [],
 		"sprite": null
