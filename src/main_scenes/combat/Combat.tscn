@@ -1,148 +1,22 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://main_scenes/combat/Combat.gd" type="Script" id=1]
-[ext_resource path="res://main_scenes/combat/scripts/UI.gd" type="Script" id=2]
+[ext_resource path="res://main_scenes/combat/scenes/UI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://main_scenes/combat/scenes/PlayerCombatant.tscn" type="PackedScene" id=3]
 [ext_resource path="res://main_scenes/combat/scripts/TurnQueue.gd" type="Script" id=4]
 [ext_resource path="res://main_scenes/combat/scenes/NonPlayerCombatant.tscn" type="PackedScene" id=5]
-[ext_resource path="res://main_scenes/combat/scenes/CharacterDisplay.tscn" type="PackedScene" id=6]
-
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 20.0
-content_margin_right = 20.0
-content_margin_top = 20.0
-content_margin_bottom = 20.0
-bg_color = Color( 0.356863, 0.545098, 0.745098, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-shadow_color = Color( 0.203922, 0.313726, 0.435294, 1 )
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 1 )
 player_combatant_scene = ExtResource( 3 )
 non_player_combatant_scene = ExtResource( 5 )
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" parent="." instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_top = 0.0
 margin_right = 800.0
 margin_bottom = 600.0
-mouse_filter = 2
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 combatants_node = NodePath("../Combatants")
-character_info_scene = ExtResource( 6 )
-
-[node name="PlayerPanel" type="PanelContainer" parent="UI"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -350.0
-margin_top = -200.0
-margin_right = 350.0
-margin_bottom = -40.0
-rect_clip_content = true
-mouse_filter = 2
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerPanel"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 151.0
-margin_bottom = 140.0
-mouse_filter = 2
-size_flags_horizontal = 0
-
-[node name="Buttons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
-margin_right = 131.0
-margin_bottom = 120.0
-mouse_filter = 2
-scroll_horizontal_enabled = false
-
-[node name="GridContainer" type="GridContainer" parent="UI/PlayerPanel/HBoxContainer/Buttons"]
-margin_right = 131.0
-margin_bottom = 106.0
-mouse_filter = 2
-custom_constants/vseparation = 20
-custom_constants/hseparation = 20
-columns = 2
-
-[node name="Attack" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
-margin_right = 54.0
-margin_bottom = 22.0
-action_mode = 0
-text = "Attack"
-
-[node name="Special" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
-margin_left = 74.0
-margin_right = 131.0
-margin_bottom = 22.0
-action_mode = 0
-text = "Special"
-
-[node name="Stance" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
-margin_top = 42.0
-margin_right = 54.0
-margin_bottom = 64.0
-action_mode = 0
-text = "Stance"
-
-[node name="Item" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
-margin_left = 74.0
-margin_top = 42.0
-margin_right = 131.0
-margin_bottom = 64.0
-action_mode = 0
-text = "Item"
-
-[node name="Flee" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer"]
-margin_top = 84.0
-margin_right = 54.0
-margin_bottom = 106.0
-action_mode = 0
-text = "Flee"
-
-[node name="SecondaryButtons" type="ScrollContainer" parent="UI/PlayerPanel/HBoxContainer"]
-visible = false
-margin_right = 42.0
-margin_bottom = 120.0
-scroll_horizontal_enabled = false
-
-[node name="GridContainer" type="GridContainer" parent="UI/PlayerPanel/HBoxContainer/SecondaryButtons"]
-margin_right = 42.0
-margin_bottom = 22.0
-custom_constants/vseparation = 20
-custom_constants/hseparation = 20
-columns = 2
-
-[node name="Back" type="ToolButton" parent="UI/PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer"]
-margin_right = 42.0
-margin_bottom = 22.0
-text = "Back"
-
-[node name="VSeparator" type="VSeparator" parent="UI/PlayerPanel"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 370.0
-margin_bottom = 140.0
-mouse_filter = 2
-size_flags_horizontal = 0
-custom_constants/separation = 350
-
-[node name="PlayerInfo" type="VBoxContainer" parent="UI/PlayerPanel"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 680.0
-margin_bottom = 140.0
-mouse_filter = 2
-custom_constants/separation = 15
-alignment = 1
 
 [node name="TurnQueue" type="Node" parent="."]
 script = ExtResource( 4 )
@@ -150,10 +24,6 @@ combatants_node = NodePath("../Combatants")
 
 [node name="Combatants" type="Node2D" parent="."]
 visible = false
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Attack" to="UI" method="_on_Attack_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Special" to="UI" method="_on_Special_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Stance" to="UI" method="_on_Stance_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Item" to="UI" method="_on_Item_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/Buttons/GridContainer/Flee" to="UI" method="_on_Flee_pressed"]
-[connection signal="pressed" from="UI/PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer/Back" to="UI" method="_on_Back_pressed"]
 [connection signal="queue_finished" from="TurnQueue" to="." method="_on_queue_finished"]
+
+[editable path="UI"]

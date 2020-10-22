@@ -4,6 +4,7 @@
 margin_top = 53.0
 margin_right = 660.0
 margin_bottom = 67.0
+rect_clip_content = true
 mouse_filter = 2
 custom_constants/separation = 40
 alignment = 2

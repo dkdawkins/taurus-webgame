@@ -44,15 +44,16 @@ func _on_Special_pressed():
 	#Add Secondary buttons for each special in combatant.specials
 	for combatant in combatants_node.get_children():
 		if (combatant.active) and (combatant.is_in_group("Players")):
-			$PlayerPanel/HBoxContainer/Buttons.hide()
+			$PlayerPanel/PrimaryButtons.hide()
 			for special in combatant.specialAbilities:
 				var button = ToolButton.new()
 				button.name = special
 				button.text = special	#TODO: pull name from ability dict
+				button.align = HALIGN_LEFT
 				button.connect("button_down", self, "_on_Secondary_pressed", [button.name])
-				$PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer.add_child(button)
+				$PlayerPanel/SecondaryButtons/VBoxContainer.add_child(button)
 				button.show()
-			$PlayerPanel/HBoxContainer/SecondaryButtons.show()
+			$PlayerPanel/SecondaryButtons.show()
 			return
 
 
@@ -74,11 +75,11 @@ func _on_Flee_pressed():
 
 func _on_Back_pressed():
 	#WARNING: assumes a player character is active, since the secondary menu was accessed
-	for button in $PlayerPanel/HBoxContainer/SecondaryButtons/GridContainer.get_children():
+	for button in $PlayerPanel/SecondaryButtons/VBoxContainer.get_children():
 		if button.name != "Back":
 			button.queue_free()
-	$PlayerPanel/HBoxContainer/SecondaryButtons.hide()
-	$PlayerPanel/HBoxContainer/Buttons.show()
+	$PlayerPanel/SecondaryButtons.hide()
+	$PlayerPanel/PrimaryButtons.show()
 
 
 func _on_Secondary_pressed(name):
