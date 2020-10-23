@@ -15,14 +15,17 @@ func initialize(combatant_stats, ability_dict):
 func attack():
 	self.perform_action(basicAttack)
 
-func special():
-	#Use special ability on target
-	#End turn
-	pass
-	
-func stance():
-	#Open stance menu
-	pass
+func secondary(name):
+	self.perform_action(name)
+
+#func special():
+#	#Use special ability on target
+#	#End turn
+#	pass
+#
+#func stance():
+#	#Open stance menu
+#	pass
 	
 func item():
 	#If item available
@@ -35,7 +38,6 @@ func item():
 func flee():
 	#Flee battle
 	pass
-
 
 func get_targets(type):
 	var targets = []

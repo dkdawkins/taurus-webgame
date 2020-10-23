@@ -36,6 +36,8 @@ func set_active(isCombatantActive):
 	if active:
 		var statusesToRemove = []
 		for status in statuses:
+			if status["type"] == "Stance":	#Do not automatically remove stances
+				continue
 			status["length"] -= 1
 			if status["length"] <= 0:
 				expire_status(status)
@@ -49,8 +51,11 @@ func set_state(combatantState):
 
 func perform_action(actionName):
 	var action = ability_data[actionName]
+	var endTurn = false
 	#TODO: display action 
 	for effect in action["effects"]:
+		if effect["type"] != "Stance":
+			endTurn = true
 		var targets = get_targets(effect["target"])
 		for target in targets:
 			for n in range(effect["numHits"]):
@@ -81,10 +86,18 @@ func perform_action(actionName):
 				#Add any lingering effects to the target
 				if effect["length"] > 0:
 					target.statuses.append(effect.duplicate(true))
+					#TODO: display status effects
+			#Add any abilities unlocked by effects to the player's special menu
+			for ability in effect["unlockedAbilities"]:
+				if target.is_in_group("Players"):
+					target.specialAbilities.append(ability)
 	
 	lastTarget = null
 	print(str(self.name + " used " + actionName))	#FOR TESTING ONLY
-	emit_signal("turn_finished")
+	if endTurn:
+		emit_signal("turn_finished")
+	elif self.is_in_group("Enemies"):
+		self.get_action()
 
 func take_damage(damage):
 	if (randi() % 100) >= evadeChance:
@@ -129,6 +142,11 @@ func expire_status(status):
 				defensePoints = defensePoints/(status["modifier"]/50)
 			"evadeChance": 
 				evadeChance -= status["modifier"]
+	for ability in status["unlockedAbilities"]:
+		if self.is_in_group("Players"):
+			self.specialAbilities.remove(ability)
 
+func get_action():
+	print("Base get_action function called; this should not happen")
 func get_targets(_type):
 	print("Base get_target function called; this should not happen")

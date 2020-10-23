@@ -1,4 +1,58 @@
 {
+	"offensive_stance": {
+		"name": "Offensive Stance",
+		"effects": [
+			{
+				"type": "Stance",
+				"target": "Self",
+				"statAffected": "attackPoints",
+				"numHits": 1,
+				"modifier": 100,
+				"length": 1,
+				"cancelEffect": "Stance",
+				"turnSkipped": false,
+				"unlockedAbilities": ["relentless_strikes"],
+				"icon": null
+			}
+		],
+		"sprites": []
+	},
+	"defensive_stance": {
+		"name": "Defensive Stance",
+		"effects": [
+			{
+				"type": "Stance",
+				"target": "Self",
+				"statAffected": "defensePoints",
+				"numHits": 1,
+				"modifier": 100,
+				"length": 1,
+				"cancelEffect": "Stance",
+				"turnSkipped": false,
+				"unlockedAbilities": ["guard"],
+				"icon": null
+			}
+		],
+		"sprites": []
+	},
+	"evasive_stance": {
+		"name": "Evasive Stance",
+		"effects": [
+			{
+				"type": "Stance",
+				"target": "Self",
+				"statAffected": "evadeChance",
+				"numHits": 1,
+				"modifier": 50,
+				"length": 1,
+				"cancelEffect": "Stance",
+				"turnSkipped": false,
+				"unlockedAbilities": ["evade"],
+				"icon": null
+			}
+		],
+		"sprites": []
+	},
 	"strike": {
 		"name": "Strike",
 		"effects": [
@@ -40,6 +94,24 @@
 				"modifier": 60,
 				"length": 0,
 				"cancelEffect": null,
+				"turnSkipped": false,
+				"unlockedAbilities": [],
+				"icon": null
+			}
+		],
+		"sprites": []
+	},
+	"evade": {
+		"name": "Evade",
+		"effects": [
+			{
+				"type": "Buff",
+				"target": "Self",
+				"statAffected": "evadeChance",
+				"numHits": 1,
+				"modifier": 50,
+				"length": 1,
+				"cancelEffect": "Damage",
 				"turnSkipped": false,
 				"unlockedAbilities": [],
 				"icon": null

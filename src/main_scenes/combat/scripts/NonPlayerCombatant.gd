@@ -18,7 +18,9 @@ func set_active(isCombatantActive):
 	.set_active(isCombatantActive)
 	if not active:
 		return
-	
+	get_action()
+
+func get_action():
 	var actionToPerform
 	
 	#Wait for TurnQueue
@@ -39,7 +41,6 @@ func set_active(isCombatantActive):
 		else:
 			currPatternStep += 1
 	perform_action(actionToPerform)
-
 
 func get_targets(type):
 	var targets = []

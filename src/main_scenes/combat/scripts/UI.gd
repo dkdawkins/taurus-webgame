@@ -58,9 +58,20 @@ func _on_Special_pressed():
 
 
 func _on_Stance_pressed():
-#	$PlayerPanel/HBoxContainer/Buttons.hide()
-#	$PlayerPanel/HBoxContainer/SecondaryButtons.show()
-	pass # Replace with function body.
+	#Add Secondary buttons for each special in combatant.stances
+	for combatant in combatants_node.get_children():
+		if (combatant.active) and (combatant.is_in_group("Players")):
+			$PlayerPanel/PrimaryButtons.hide()
+			for stance in combatant.stances:
+				var button = ToolButton.new()
+				button.name = stance
+				button.text = stance	#TODO: pull name from ability dict
+				button.align = HALIGN_LEFT
+				button.connect("button_down", self, "_on_Secondary_pressed", [button.name])
+				$PlayerPanel/SecondaryButtons/VBoxContainer.add_child(button)
+				button.show()
+			$PlayerPanel/SecondaryButtons.show()
+			return
 
 
 func _on_Item_pressed():
@@ -83,8 +94,10 @@ func _on_Back_pressed():
 
 
 func _on_Secondary_pressed(name):
-	#Perform secondary action
-	pass
+	for combatant in combatants_node.get_children():
+		if (combatant.active) and (combatant.is_in_group("Players")):
+			combatant.secondary(name)
+			return
 
 
 func _on_hitPoints_changed(combatant):
