@@ -1,6 +1,6 @@
 extends Node2D
 
-enum State {ALIVE, DEAD}
+enum State {ALIVE, DEAD, FLED}
 
 #declare default combatant stats here
 var hitPoints = 1
@@ -52,46 +52,56 @@ func set_state(combatantState):
 func perform_action(actionName):
 	var action = ability_data[actionName]
 	var endTurn = false
-	#TODO: display action 
-	for effect in action["effects"]:
-		if effect["type"] != "Stance":
-			endTurn = true
-		var targets = get_targets(effect["target"])
-		for target in targets:
-			for n in range(effect["numHits"]):
-				match effect["statAffected"]:
-					"hitPoints":
-						if effect["type"] == "Damage":
-							target.take_damage(attackPoints*(effect["modifier"]/50))
-						elif effect["type"] == "Heal":
-							target.heal_damage(attackPoints*(effect["modifier"]/50))
-					"maxHitPoints":
-						target.maxHitPoints = maxHitPoints*(effect["modifier"]/50)
-						if target.maxHitPoints < target.hitPoints:
-							target.hitPoints = target.maxHitPoints
-						emit_signal("hitPoints_changed")
-					"attackPoints": 
-						target.attackPoints = attackPoints*(effect["modifier"]/50)
-					"defensePoints": 
-						target.defensePoints = defensePoints*(effect["modifier"]/50)
-					"evadeChance": 
-						target.evadeChance += effect["modifier"]
-				#Check target for statuses that this effect removes
-				for status in target.statuses:
-					if status["cancelEffect"] == effect["type"]:
-						target.expire_status(status)
-						print(str(status["type"] + " stripped from target!"))	#FOR TESTING
-						target.statuses.erase(status)
-						break
-				#Add any lingering effects to the target
-				if effect["length"] > 0:
-					target.statuses.append(effect.duplicate(true))
-					#TODO: display status effects
-			#Add any abilities unlocked by effects to the player's special menu
-			for ability in effect["unlockedAbilities"]:
-				if target.is_in_group("Players"):
-					target.specialAbilities.append(ability)
-	
+	#TODO: display action
+	if action["name"] != "Flee":
+		for effect in action["effects"]:
+			if effect["type"] != "Stance":
+				endTurn = true
+			var targets = get_targets(effect["target"])
+			for target in targets:
+				for n in range(effect["numHits"]):
+					match effect["statAffected"]:
+						"hitPoints":
+							if effect["type"] == "Damage":
+								target.take_damage(attackPoints*(effect["modifier"]/50))
+							elif effect["type"] == "Heal":
+								target.heal_damage(attackPoints*(effect["modifier"]/50))
+						"maxHitPoints":
+							target.maxHitPoints = maxHitPoints*(effect["modifier"]/50)
+							if target.maxHitPoints < target.hitPoints:
+								target.hitPoints = target.maxHitPoints
+							emit_signal("hitPoints_changed")
+						"attackPoints": 
+							target.attackPoints = attackPoints*(effect["modifier"]/50)
+						"defensePoints": 
+							target.defensePoints = defensePoints*(effect["modifier"]/50)
+						"evadeChance": 
+							target.evadeChance += effect["modifier"]
+					#Check target for statuses that this effect removes
+					for status in target.statuses:
+						if status["cancelEffect"] == effect["type"]:
+							target.expire_status(status)
+							print(str(status["type"] + " stripped from target!"))	#FOR TESTING
+							target.statuses.erase(status)
+							break
+					#Add any lingering effects to the target
+					if effect["length"] > 0:
+						target.statuses.append(effect.duplicate(true))
+						#TODO: display status effects
+				#Add any abilities unlocked by effects to the player's special menu
+				for ability in effect["unlockedAbilities"]:
+					if target.is_in_group("Players"):
+						target.specialAbilities.append(ability)
+	else:
+		endTurn = true
+		if self.is_in_group("Players"):
+			#Remove all player characters from combat (effectively ending combat)
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Players") and state != State.DEAD:
+					combatant.state = State.FLED
+		elif self.is_in_group("Enemies"):
+			#Remove this enemy from combat
+			self.state = State.FLED
 	lastTarget = null
 	print(str(self.name + " used " + actionName))	#FOR TESTING ONLY
 	if endTurn:

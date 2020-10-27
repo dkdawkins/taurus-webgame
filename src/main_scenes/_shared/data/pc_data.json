@@ -14,5 +14,21 @@
 		],
 		"items": [],
 		"sprite": null
+	},
+	"ken": {
+		"name": "Ken",
+		"hp": 50,
+		"ap": 10,
+		"dp": 5,
+		"ec": 0,
+		"basicAttack": "strike",
+		"specialAbilities": [],
+		"stances": [
+			"offensive_stance",
+			"defensive_stance",
+			"evasive_stance"
+		],
+		"items": [],
+		"sprite": null
 	}
 }

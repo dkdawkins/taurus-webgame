@@ -1,9 +1,12 @@
 extends "res://main_scenes/combat/scripts/Combatant.gd"
 
 var basicAttack = "strike"
+var fleeAction = "flee"
 var specialAbilities = []
 var stances = []
 var items = []
+
+signal queue_finished(pc_state, npc_state)
 
 func initialize(combatant_stats, ability_dict):
 	.initialize(combatant_stats, ability_dict)
@@ -17,15 +20,6 @@ func attack():
 
 func secondary(name):
 	self.perform_action(name)
-
-#func special():
-#	#Use special ability on target
-#	#End turn
-#	pass
-#
-#func stance():
-#	#Open stance menu
-#	pass
 	
 func item():
 	#If item available
@@ -36,8 +30,7 @@ func item():
 	pass
 	
 func flee():
-	#Flee battle
-	pass
+	self.perform_action(fleeAction)
 
 func get_targets(type):
 	var targets = []

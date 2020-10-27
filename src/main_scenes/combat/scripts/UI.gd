@@ -80,8 +80,10 @@ func _on_Item_pressed():
 
 
 func _on_Flee_pressed():
-	#Escape from battle
-	pass # Replace with function body.
+	for combatant in combatants_node.get_children():
+		if (combatant.active) and (combatant.is_in_group("Players")):
+			combatant.flee()
+			return
 
 
 func _on_Back_pressed():

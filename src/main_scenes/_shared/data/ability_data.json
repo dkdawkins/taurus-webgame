@@ -1,4 +1,9 @@
 {
+	"flee": {
+		"name": "Flee",
+		"effects": [],
+		"sprites": []
+	},
 	"offensive_stance": {
 		"name": "Offensive Stance",
 		"effects": [
