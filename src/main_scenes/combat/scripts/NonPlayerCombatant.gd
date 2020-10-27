@@ -23,7 +23,7 @@ func set_active(isCombatantActive):
 func get_action():
 	var actionToPerform
 	
-	#Wait for TurnQueue
+	#Wait for TurnQueue to catch up
 	yield(get_tree().create_timer(0.5), "timeout")
 	
 	if actionPatterns.empty():

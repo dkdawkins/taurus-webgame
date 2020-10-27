@@ -31,9 +31,12 @@ func initialize(combatant_stats, ability_dict):
 	self.set_name(combatant_stats["name"])
 
 func set_active(isCombatantActive):
+	#If combatant has a status that skips their turn, set active to false
+	#and end their turn after applying other statuses
 	active = isCombatantActive
 	#Update status durations and expire statuses that reach zero
 	if active:
+		var turnSkipped = false
 		var statusesToRemove = []
 		for status in statuses:
 			if status["type"] == "Stance":	#Do not automatically remove stances
@@ -42,8 +45,17 @@ func set_active(isCombatantActive):
 			if status["length"] <= 0:
 				expire_status(status)
 				statusesToRemove.append(status)
+			else:
+				#apply any DoT or TurnSkipped effects (DoT has not been implemented yet)
+				if status["turnSkipped"] == true:
+					turnSkipped = true
 		for status in statusesToRemove:
 			statuses.erase(status)
+		if turnSkipped:
+			active = false
+			#Wait for TurnQueue to catch up
+			yield(get_tree().create_timer(0.5), "timeout")
+			emit_signal("turn_finished")
 
 func set_state(combatantState):
 	state = combatantState
@@ -87,6 +99,7 @@ func perform_action(actionName):
 					#Add any lingering effects to the target
 					if effect["length"] > 0:
 						target.statuses.append(effect.duplicate(true))
+						print(str(effect["type"] + " applied to target"))
 						#TODO: display status effects
 				#Add any abilities unlocked by effects to the player's special menu
 				for ability in effect["unlockedAbilities"]:
@@ -155,6 +168,7 @@ func expire_status(status):
 	for ability in status["unlockedAbilities"]:
 		if self.is_in_group("Players"):
 			self.specialAbilities.remove(ability)
+	print(str(status["type"] + " expired"))
 
 func get_action():
 	print("Base get_action function called; this should not happen")
