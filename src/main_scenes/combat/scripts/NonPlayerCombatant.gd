@@ -74,11 +74,11 @@ func get_targets(type):
 					lastTarget = combatant
 					print("lastTarget set")
 					break
-		"All enemies":
+		"All Enemies":
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
 					targets.append(combatant)
-		"All allies":
+		"All Allies":
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
 					targets.append(combatant)

@@ -126,12 +126,13 @@ func take_damage(damage):
 	if (randi() % 100) >= evadeChance:
 		var actualDamage = damage - defensePoints
 		if actualDamage > 0:
+			var prevHitPoints = hitPoints
 			hitPoints -= actualDamage
 			
 			#TODO: Play animations/sounds
 			
 			emit_signal("hitPoints_changed")
-			if hitPoints <= 0:
+			if (hitPoints <= 0) and (prevHitPoints > 0):
 				self.state = State.DEAD
 	else:
 		print(str(self.name + " evaded the attack!"))	#FOR TESTING
