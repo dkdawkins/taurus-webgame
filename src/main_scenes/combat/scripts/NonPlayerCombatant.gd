@@ -24,7 +24,7 @@ func get_action():
 	var actionToPerform
 	
 	#Wait for TurnQueue to catch up
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(1.5), "timeout")
 	
 	if actionPatterns.empty():
 		actionToPerform = combatActions[randi() % combatActions.size()]
@@ -53,26 +53,22 @@ func get_targets(type):
 			if lastTarget != null:
 				if lastTarget.is_in_group("Players"):
 					targets.append(lastTarget)
-					print("lastTarget returned")
 					return targets
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
 					targets.append(combatant)
 					lastTarget = combatant
-					print("lastTarget set")
 					break
 		"Single Ally":
 			#TODO: randomize selected character
 			if lastTarget != null:
 				if lastTarget.is_in_group("Enemies"):
 					targets.append(lastTarget)
-					print("lastTarget returned")
 					return targets
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
 					targets.append(combatant)
 					lastTarget = combatant
-					print("lastTarget set")
 					break
 		"All Enemies":
 			for combatant in get_parent().get_children():

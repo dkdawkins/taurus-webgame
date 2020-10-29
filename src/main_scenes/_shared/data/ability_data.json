@@ -1,11 +1,13 @@
 {
 	"flee": {
 		"name": "Flee",
+		"dialog": " fled from the battle!",
 		"effects": [],
 		"sprites": []
 	},
 	"offensive_stance": {
 		"name": "Offensive Stance",
+		"dialog": " holds their weapon high, poised to attack the enemy!",
 		"effects": [
 			{
 				"type": "Stance",
@@ -24,6 +26,7 @@
 	},
 	"defensive_stance": {
 		"name": "Defensive Stance",
+		"dialog": " holds their weapon in front, prepared to block incoming attacks!",
 		"effects": [
 			{
 				"type": "Stance",
@@ -42,6 +45,7 @@
 	},
 	"evasive_stance": {
 		"name": "Evasive Stance",
+		"dialog": " is watching the enemy closely, prepared to evade incoming attacks!",
 		"effects": [
 			{
 				"type": "Stance",
@@ -60,6 +64,7 @@
 	},
 	"strike": {
 		"name": "Strike",
+		"dialog": " attacks ()!",
 		"effects": [
 			{
 				"type": "Damage",
@@ -78,6 +83,7 @@
 	},
 	"relentless_strikes": {
 		"name": "Relentless Strikes",
+		"dialog": " relentlessly attacks ()!",
 		"effects": [
 			{
 				"type": "Damage",
@@ -108,6 +114,7 @@
 	},
 	"evade": {
 		"name": "Evade",
+		"dialog": " fully commits to evading the next attack!",
 		"effects": [
 			{
 				"type": "Buff",
@@ -126,6 +133,7 @@
 	},
 	"bite": {
 		"name": "Bite",
+		"dialog": " bites ()!",
 		"effects": [
 			{
 				"type": "Damage",
@@ -144,6 +152,7 @@
 	},
 	"prowl": {
 		"name": "Prowl",
+		"dialog": " stands low, watching the enemy carefully.",
 		"effects": [
 			{
 				"type": "Buff",
@@ -162,6 +171,7 @@
 	},
 	"slash": {
 		"name": "Slash",
+		"dialog": " slashes () with their weapon!",
 		"effects": [
 			{
 				"type": "Damage",
@@ -180,6 +190,7 @@
 	},
 	"guard": {
 		"name": "Guard",
+		"dialog": " braces themselves, fully committed to defense!",
 		"effects": [
 			{
 				"type": "Buff",
@@ -198,6 +209,7 @@
 	},
 	"leap": {
 		"name": "Leap",
+		"dialog": " leaps into the air, weapon held high!",
 		"effects": [
 			{
 				"type": "Buff",
@@ -216,6 +228,7 @@
 	},
 	"shieldbreaker": {
 		"name": "Shieldbreaker",
+		"dialog": " crashes down on () with earth-shattering force!",
 		"effects":  [
 			{
 				"type": "Damage",
@@ -246,6 +259,7 @@
 	},
 	"overhead_slash": {
 		"name": "Overhead Slash",
+		"dialog": " attacks () with an overhead cut!",
 		"effects": [
 			{
 				"type": "Damage",
@@ -264,6 +278,7 @@
 	},
 	"cleave": {
 		"name": "Cleave",
+		"dialog": " slashes wide, attacking all enemies and pulling their weapon back for another attack!",
 		"effects": [
 			{
 				"type": "Damage",
@@ -282,6 +297,7 @@
 	},
 	"whirlwind": {
 		"name": "Whirlwind",
+		"dialog": " spins in a flurry of steel, attacking all enemies multiple times!",
 		"effects": [
 			{
 				"type": "Damage",

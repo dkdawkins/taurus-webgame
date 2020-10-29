@@ -11,7 +11,9 @@ func initialize():
 	for combatant in combatants_node.get_children():
 		combatant.connect("hitPoints_changed", self, "_on_hitPoints_changed", [combatant])
 		combatant.connect("state_changed", self, "_on_state_changed", [combatant])
-		combatant.connect("action_performed", self, "_on_action_performed")
+		combatant.connect("action_performed", self, "_on_action_performed", [combatant])
+		combatant.connect("status_applied", self, "_on_status_applied", [combatant])
+		combatant.connect("status_removed", self, "_on_status_removed", [combatant])
 		if combatant.is_in_group("Players"):
 			character_info = character_info_scene.instance()
 			character_info.name = combatant.name
@@ -109,9 +111,25 @@ func _on_hitPoints_changed(combatant):
 		#$PlayerPanel/PlayerInfo/Character/Health.text = str(combatant.hitPoints) + "/" + str(combatant.maxHitPoints)
 
 func _on_state_changed(combatant):
-	#TODO: print state change to a popup
+	#Display any state indicators (animations, etc.)
+	#Remove combatant from display if their status is DEAD or FLED
 	print(combatant.state)
 
-func _on_action_performed(actionDialog):
-	#TODO: print action dialog to a popup
-	print(actionDialog)
+func _on_action_performed(action, target, combatant):
+	var actionDialog = action["dialog"]
+	if "()" in actionDialog:
+		if target != null:
+			actionDialog = actionDialog.replace("()", target.get_name())
+		else:
+			actionDialog = actionDialog.replace("()", combatant.get_name())
+	actionDialog = actionDialog.insert(0, combatant.get_name())
+	$DialogPopup/DialogText.text = actionDialog
+	$DialogPopup.show()
+
+func _on_status_applied(status, combatant):
+	#TODO: show status icon
+	print(str(status["type"] + " applied to " + combatant.get_name()))
+
+func _on_status_removed(status, combatant):
+	#TODO: remove status icon
+	print(str(status["type"] + " removed from " + combatant.get_name()))

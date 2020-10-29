@@ -20,6 +20,8 @@ signal turn_finished
 #signal dead
 signal hitPoints_changed
 signal state_changed
+signal status_applied(status)
+signal status_removed(status)
 
 func initialize(combatant_stats, ability_dict):
 	ability_data = ability_dict
@@ -43,14 +45,13 @@ func set_active(isCombatantActive):
 				continue
 			status["length"] -= 1
 			if status["length"] <= 0:
-				expire_status(status)
 				statusesToRemove.append(status)
 			else:
 				#apply any DoT or TurnSkipped effects (DoT has not been implemented yet)
 				if status["turnSkipped"] == true:
 					turnSkipped = true
 		for status in statusesToRemove:
-			statuses.erase(status)
+			expire_status(status)
 		if turnSkipped:
 			active = false
 			#Wait for TurnQueue to catch up
@@ -64,7 +65,6 @@ func set_state(combatantState):
 func perform_action(actionName):
 	var action = ability_data[actionName]
 	var endTurn = false
-	#TODO: display action
 	if action["name"] != "Flee":
 		for effect in action["effects"]:
 			if effect["type"] != "Stance":
@@ -93,14 +93,10 @@ func perform_action(actionName):
 					for status in target.statuses:
 						if status["cancelEffect"] == effect["type"]:
 							target.expire_status(status)
-							print(str(status["type"] + " stripped from target!"))	#FOR TESTING
-							target.statuses.erase(status)
 							break
 					#Add any lingering effects to the target
 					if effect["length"] > 0:
-						target.statuses.append(effect.duplicate(true))
-						print(str(effect["type"] + " applied to target"))
-						#TODO: display status effects
+						target.apply_status(effect.duplicate(true))
 				#Add any abilities unlocked by effects to the player's special menu
 				for ability in effect["unlockedAbilities"]:
 					if target.is_in_group("Players"):
@@ -115,8 +111,8 @@ func perform_action(actionName):
 		elif self.is_in_group("Enemies"):
 			#Remove this enemy from combat
 			self.state = State.FLED
+	emit_signal("action_performed", action, lastTarget)
 	lastTarget = null
-	print(str(self.name + " used " + actionName))	#FOR TESTING ONLY
 	if endTurn:
 		emit_signal("turn_finished")
 	elif self.is_in_group("Enemies"):
@@ -131,20 +127,23 @@ func take_damage(damage):
 			
 			#TODO: Play animations/sounds
 			
-			emit_signal("hitPoints_changed")
+			emit_signal("hitPoints_changed")	#TODO: Expand this function for mini-popups
 			if (hitPoints <= 0) and (prevHitPoints > 0):
 				self.state = State.DEAD
-	else:
-		print(str(self.name + " evaded the attack!"))	#FOR TESTING
 
 func heal_damage(heal):
-	if heal > 0:
-		hitPoints += heal
+	var actualHeal = heal
+	if actualHeal > 0:
+		hitPoints += actualHeal
 		if hitPoints > maxHitPoints:
+			actualHeal -= hitPoints - maxHitPoints
 			hitPoints = maxHitPoints
-		emit_signal("hitPoints_changed")
-		
+		emit_signal("hitPoints_changed")	#TODO: see above
 		#TODO: Play animations/sounds
+
+func apply_status(status):
+	self.statuses.append(status)
+	emit_signal("status_applied", status)
 
 #Reverses the effects of the given status
 func expire_status(status):
@@ -169,7 +168,8 @@ func expire_status(status):
 	for ability in status["unlockedAbilities"]:
 		if self.is_in_group("Players"):
 			self.specialAbilities.remove(ability)
-	print(str(status["type"] + " expired"))
+	self.statuses.erase(status)
+	emit_signal("status_removed", status)
 
 func get_action():
 	print("Base get_action function called; this should not happen")
