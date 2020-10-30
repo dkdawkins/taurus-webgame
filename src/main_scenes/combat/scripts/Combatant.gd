@@ -11,6 +11,7 @@ var evadeChance = 0
 var statuses = []	#Stores any statuses currently affecting the combatant
 var lastTarget = null	#Stores the last target for actions with multiple effects
 
+var sprites
 var ability_data
 var active = false setget set_active
 var state = State.ALIVE setget set_state
@@ -24,13 +25,15 @@ signal status_applied(status)
 signal status_removed(status)
 
 func initialize(combatant_stats, ability_dict):
+	sprites = load(combatant_stats["sprites"]).instance()
+	self.add_child(sprites)
+	self.set_name(combatant_stats["name"])
 	ability_data = ability_dict
 	hitPoints = combatant_stats["hp"]
 	maxHitPoints = combatant_stats["hp"]
 	attackPoints = combatant_stats["ap"]
 	defensePoints = combatant_stats["dp"]
 	evadeChance = combatant_stats["ec"]
-	self.set_name(combatant_stats["name"])
 
 func set_active(isCombatantActive):
 	#If combatant has a status that skips their turn, set active to false

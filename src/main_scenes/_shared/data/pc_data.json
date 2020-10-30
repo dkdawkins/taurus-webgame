@@ -13,7 +13,8 @@
 			"evasive_stance"
 		],
 		"items": [],
-		"sprite": null
+		"sprites": "res://main_scenes/combat/assets/David.tscn",
+		"position": 3
 	},
 	"ken": {
 		"name": "Ken",
@@ -29,6 +30,7 @@
 			"evasive_stance"
 		],
 		"items": [],
-		"sprite": null
+		"sprites": null,
+		"position": 4
 	}
 }

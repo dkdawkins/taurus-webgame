@@ -10,7 +10,8 @@
 			"prowl"
 		],
 		"patterns": [],
-		"sprite": null
+		"sprites": "res://main_scenes/combat/assets/Wolf.tscn",
+		"position": null
 	},
 	"bandit": {
 		"name": "Bandit",
@@ -23,7 +24,8 @@
 			"guard"
 		],
 		"patterns": [],
-		"sprite": null
+		"sprites": "res://main_scenes/combat/assets/Bandit.tscn",
+		"position": 9
 	},
 	"knight": {
 		"name": "Knight",
@@ -49,6 +51,7 @@
 				"whirlwind"
 			]
 		],
-		"sprite": null
+		"sprites": "res://main_scenes/combat/assets/Knight.tscn",
+		"position": 9
 	}
 }

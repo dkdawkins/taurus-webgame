@@ -155,10 +155,10 @@ __meta__ = {
 [node name="DialogPopup" type="PopupDialog" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -175.0
+margin_left = -150.0
 margin_top = 20.0
-margin_right = 175.0
-margin_bottom = 120.0
+margin_right = 150.0
+margin_bottom = 100.0
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
