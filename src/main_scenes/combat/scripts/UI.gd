@@ -12,7 +12,7 @@ func initialize():
 		combatant.connect("hitPoints_changed", self, "_on_hitPoints_changed", [combatant])
 		combatant.connect("state_changed", self, "_on_state_changed", [combatant])
 		combatant.connect("action_performed", self, "_on_action_performed", [combatant])
-		combatant.connect("status_applied", self, "_on_status_applied", [combatant])
+		combatant.connect("status_added", self, "_on_status_added", [combatant])
 		combatant.connect("status_removed", self, "_on_status_removed", [combatant])
 		if combatant.is_in_group("Players"):
 			character_info = character_info_scene.instance()
@@ -126,9 +126,9 @@ func _on_action_performed(action, target, combatant):
 	$DialogPopup/DialogText.text = actionDialog
 	$DialogPopup.show()
 
-func _on_status_applied(status, combatant):
+func _on_status_added(status, combatant):
 	#TODO: show status icon
-	print(str(status["type"] + " applied to " + combatant.get_name()))
+	print(str(status["type"] + " added to " + combatant.get_name()))
 
 func _on_status_removed(status, combatant):
 	#TODO: remove status icon

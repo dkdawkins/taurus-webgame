@@ -21,7 +21,7 @@ signal turn_finished
 #signal dead
 signal hitPoints_changed
 signal state_changed
-signal status_applied(status)
+signal status_added(status)
 signal status_removed(status)
 
 func initialize(combatant_stats, ability_dict):
@@ -69,6 +69,7 @@ func perform_action(actionName):
 	var action = ability_data[actionName]
 	var endTurn = false
 	if action["name"] != "Flee":
+		play_animation("Acting")
 		for effect in action["effects"]:
 			if effect["type"] != "Stance":
 				endTurn = true
@@ -99,7 +100,7 @@ func perform_action(actionName):
 							break
 					#Add any lingering effects to the target
 					if effect["length"] > 0:
-						target.apply_status(effect.duplicate(true))
+						target.add_status(effect.duplicate(true))
 				#Add any abilities unlocked by effects to the player's special menu
 				for ability in effect["unlockedAbilities"]:
 					if target.is_in_group("Players"):
@@ -127,12 +128,12 @@ func take_damage(damage):
 		if actualDamage > 0:
 			var prevHitPoints = hitPoints
 			hitPoints -= actualDamage
-			
-			#TODO: Play animations/sounds
-			
 			emit_signal("hitPoints_changed")	#TODO: Expand this function for mini-popups
 			if (hitPoints <= 0) and (prevHitPoints > 0):
 				self.state = State.DEAD
+				play_animation("Death")
+			elif (hitPoints > 0):
+				play_animation("Damaged")
 
 func heal_damage(heal):
 	var actualHeal = heal
@@ -144,9 +145,9 @@ func heal_damage(heal):
 		emit_signal("hitPoints_changed")	#TODO: see above
 		#TODO: Play animations/sounds
 
-func apply_status(status):
+func add_status(status):
 	self.statuses.append(status)
-	emit_signal("status_applied", status)
+	emit_signal("status_added", status)
 
 #Reverses the effects of the given status
 func expire_status(status):
@@ -173,6 +174,12 @@ func expire_status(status):
 			self.specialAbilities.remove(ability)
 	self.statuses.erase(status)
 	emit_signal("status_removed", status)
+
+func play_animation(name):
+	sprites.get_node("AnimatedSprite").play(name)
+	yield(sprites.get_node("AnimatedSprite"), "animation_finished")
+	if state != State.DEAD:
+		sprites.get_node("AnimatedSprite").set_animation("Idle")
 
 func get_action():
 	print("Base get_action function called; this should not happen")
