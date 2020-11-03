@@ -20,6 +20,8 @@ signal action_performed(actionDialog)
 signal turn_finished
 #signal dead
 signal hitPoints_changed
+signal combatant_attacked(damage, evaded)
+signal combatant_healed(healing)
 signal state_changed
 signal status_added(status)
 signal status_removed(status)
@@ -69,7 +71,10 @@ func perform_action(actionName):
 	var action = ability_data[actionName]
 	var endTurn = false
 	if action["name"] != "Flee":
-		play_animation("Acting")
+		if self.is_in_group("Players"):
+			play_animation("Acting")
+		elif self.is_in_group("Enemies"):
+			play_animation("Acting", true)
 		for effect in action["effects"]:
 			if effect["type"] != "Stance":
 				endTurn = true
@@ -123,17 +128,24 @@ func perform_action(actionName):
 		self.get_action()
 
 func take_damage(damage):
+	var evaded = false
+	var actualDamage = 0
 	if (randi() % 100) >= evadeChance:
-		var actualDamage = damage - defensePoints
+		actualDamage = damage - defensePoints
 		if actualDamage > 0:
 			var prevHitPoints = hitPoints
 			hitPoints -= actualDamage
-			emit_signal("hitPoints_changed")	#TODO: Expand this function for mini-popups
+			emit_signal("hitPoints_changed")
 			if (hitPoints <= 0) and (prevHitPoints > 0):
 				self.state = State.DEAD
 				play_animation("Death")
 			elif (hitPoints > 0):
 				play_animation("Damaged")
+		else:
+			actualDamage = 0
+	else:
+		evaded = true
+	emit_signal("combatant_attacked", actualDamage, evaded)
 
 func heal_damage(heal):
 	var actualHeal = heal
@@ -142,8 +154,9 @@ func heal_damage(heal):
 		if hitPoints > maxHitPoints:
 			actualHeal -= hitPoints - maxHitPoints
 			hitPoints = maxHitPoints
-		emit_signal("hitPoints_changed")	#TODO: see above
+		emit_signal("hitPoints_changed")
 		#TODO: Play animations/sounds
+	emit_signal("combatant_healed", actualHeal)
 
 func add_status(status):
 	self.statuses.append(status)
@@ -175,8 +188,8 @@ func expire_status(status):
 	self.statuses.erase(status)
 	emit_signal("status_removed", status)
 
-func play_animation(name):
-	sprites.get_node("AnimatedSprite").play(name)
+func play_animation(name, reverse=false):
+	sprites.get_node("AnimatedSprite").play(name, reverse)
 	yield(sprites.get_node("AnimatedSprite"), "animation_finished")
 	if state != State.DEAD:
 		sprites.get_node("AnimatedSprite").set_animation("Idle")

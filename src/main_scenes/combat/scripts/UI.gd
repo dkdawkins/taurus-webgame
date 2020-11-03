@@ -2,6 +2,9 @@ extends Control
 
 export (NodePath) var combatants_node
 export (PackedScene) var character_info_scene
+#export (PackedScene) var damage_popup_scene
+
+var damage_popup = preload("res://main_scenes/combat/scenes/DamagePopup.tscn")
 
 func _ready():
 	combatants_node = get_node(combatants_node)
@@ -10,6 +13,8 @@ func initialize():
 	var character_info
 	for combatant in combatants_node.get_children():
 		combatant.connect("hitPoints_changed", self, "_on_hitPoints_changed", [combatant])
+		combatant.connect("combatant_attacked", self, "_on_combatant_attacked", [combatant])
+		combatant.connect("combatant_healed", self, "_on_combatant_healed", [combatant])
 		combatant.connect("state_changed", self, "_on_state_changed", [combatant])
 		combatant.connect("action_performed", self, "_on_action_performed", [combatant])
 		combatant.connect("status_added", self, "_on_status_added", [combatant])
@@ -96,13 +101,31 @@ func _on_Back_pressed():
 	$PlayerPanel/SecondaryButtons.hide()
 	$PlayerPanel/PrimaryButtons.show()
 
-
 func _on_Secondary_pressed(name):
 	for combatant in combatants_node.get_children():
 		if (combatant.active) and (combatant.is_in_group("Players")):
 			combatant.secondary(name)
 			return
 
+func _on_combatant_attacked(damage, evaded, combatant):
+	var popup = damage_popup.instance()
+	popup.type = "Damage"
+	popup.position.x = combatant.position.x
+	popup.position.y = combatant.position.y
+	if evaded:
+		popup.text = "EVADED"
+	else:
+		popup.text = str(damage)
+	add_child(popup)
+
+func _on_combatant_healed(heal, combatant):
+	var popup = Label.new()
+	popup.rect_position.x = combatant.position.x - 40
+	popup.rect_position.y = combatant.position.y - 50
+	popup.text = str(heal)
+	add_child(popup)
+	yield(get_tree().create_timer(1), "timeout")
+	popup.queue_free()
 
 func _on_hitPoints_changed(combatant):
 	if combatant.is_in_group("Players"):

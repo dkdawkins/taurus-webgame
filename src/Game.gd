@@ -24,8 +24,9 @@ func _ready():
 	#FOR TESTING ONLY
 	##################
 	
-#	print(str(npc_data["wolf"]["name"], " used ", ability_data["bite"]["name"], "!"))
-	var combatants = ["wolf", "wolf", "wolf", "wolf", "wolf", "david"] #Keys corresponding to dict objects in npc_data or pc_data
+	var combatants = ["wolf", "wolf", "wolf", "wolf", "wolf", "david"]
+#	var combatants = ["wolf", "wolf", "david"]
+#	var combatants = ["knight", "david"]
 	start_combat(combatants)
 	
 	##################
