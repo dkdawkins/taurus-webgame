@@ -2,6 +2,9 @@ extends Node2D
 
 enum State {ALIVE, DEAD, FLED}
 
+onready var status_icons = get_node("StatusIcons")
+var damage_popup = preload("res://main_scenes/combat/scenes/DamagePopup.tscn")
+
 #declare default combatant stats here
 var hitPoints = 1
 var maxHitPoints = 1
@@ -17,14 +20,11 @@ var active = false setget set_active
 var state = State.ALIVE setget set_state
 
 signal action_performed(actionDialog)
+signal stance_changed(action)
 signal turn_finished
 #signal dead
 signal hitPoints_changed
-signal combatant_attacked(damage, evaded)
-signal combatant_healed(healing)
 signal state_changed
-signal status_added(status)
-signal status_removed(status)
 
 func initialize(combatant_stats, ability_dict):
 	sprites = load(combatant_stats["sprites"]).instance()
@@ -69,6 +69,7 @@ func set_state(combatantState):
 
 func perform_action(actionName):
 	var action = ability_data[actionName]
+	var stanceChanged = false
 	var endTurn = false
 	if action["name"] != "Flee":
 		if self.is_in_group("Players"):
@@ -81,6 +82,8 @@ func perform_action(actionName):
 			var targets = get_targets(effect["target"])
 			for target in targets:
 				for n in range(effect["numHits"]):
+					if effect["type"] == "Stance":
+						stanceChanged = true
 					match effect["statAffected"]:
 						"hitPoints":
 							if effect["type"] == "Damage":
@@ -121,6 +124,8 @@ func perform_action(actionName):
 			#Remove this enemy from combat
 			self.state = State.FLED
 	emit_signal("action_performed", action, lastTarget)
+	if stanceChanged:
+		emit_signal("stance_changed", action)
 	lastTarget = null
 	if endTurn:
 		emit_signal("turn_finished")
@@ -145,7 +150,13 @@ func take_damage(damage):
 			actualDamage = 0
 	else:
 		evaded = true
-	emit_signal("combatant_attacked", actualDamage, evaded)
+	var popup = damage_popup.instance()
+	popup.type = "Damage"
+	if evaded:
+		popup.text = "EVADED"
+	else:
+		popup.text = str(actualDamage)
+	add_child(popup)
 
 func heal_damage(heal):
 	var actualHeal = heal
@@ -156,14 +167,30 @@ func heal_damage(heal):
 			hitPoints = maxHitPoints
 		emit_signal("hitPoints_changed")
 		#TODO: Play animations/sounds
-	emit_signal("combatant_healed", actualHeal)
+	var popup = damage_popup.instance()
+	popup.type = "Heal"
+	popup.text = str(heal)
+	add_child(popup)
 
 func add_status(status):
+	var offset = 0
+	var statusIcon = TextureRect.new()
+	statusIcon.texture = load(status["icon"])
+	statusIcon.rect_scale = Vector2(0.5, 0.5)
+	for _icon in status_icons.get_children():
+		offset += 25
+	statusIcon.rect_position.x += offset
+	status_icons.add_child(statusIcon)
 	self.statuses.append(status)
-	emit_signal("status_added", status)
 
 #Reverses the effects of the given status
 func expire_status(status):
+	var index = statuses.find(status)
+	var iconToRemove = status_icons.get_child(index)
+#	iconToRemove.queue_free()
+	status_icons.remove_child(iconToRemove)
+	for n in range(index, status_icons.get_child_count()):
+		status_icons.get_child(n).rect_position.x -= 25
 	for n in range(status["numHits"]):
 		match status["statAffected"]:
 #			"hitPoints":
@@ -186,7 +213,6 @@ func expire_status(status):
 		if self.is_in_group("Players"):
 			self.specialAbilities.remove(ability)
 	self.statuses.erase(status)
-	emit_signal("status_removed", status)
 
 func play_animation(name, reverse=false):
 	sprites.get_node("AnimatedSprite").play(name, reverse)

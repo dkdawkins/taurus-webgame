@@ -2,9 +2,6 @@ extends Control
 
 export (NodePath) var combatants_node
 export (PackedScene) var character_info_scene
-#export (PackedScene) var damage_popup_scene
-
-var damage_popup = preload("res://main_scenes/combat/scenes/DamagePopup.tscn")
 
 func _ready():
 	combatants_node = get_node(combatants_node)
@@ -13,12 +10,9 @@ func initialize():
 	var character_info
 	for combatant in combatants_node.get_children():
 		combatant.connect("hitPoints_changed", self, "_on_hitPoints_changed", [combatant])
-		combatant.connect("combatant_attacked", self, "_on_combatant_attacked", [combatant])
-		combatant.connect("combatant_healed", self, "_on_combatant_healed", [combatant])
 		combatant.connect("state_changed", self, "_on_state_changed", [combatant])
+		combatant.connect("stance_changed", self, "_on_stance_changed", [combatant])
 		combatant.connect("action_performed", self, "_on_action_performed", [combatant])
-		combatant.connect("status_added", self, "_on_status_added", [combatant])
-		combatant.connect("status_removed", self, "_on_status_removed", [combatant])
 		if combatant.is_in_group("Players"):
 			character_info = character_info_scene.instance()
 			character_info.name = combatant.name
@@ -107,31 +101,16 @@ func _on_Secondary_pressed(name):
 			combatant.secondary(name)
 			return
 
-func _on_combatant_attacked(damage, evaded, combatant):
-	var popup = damage_popup.instance()
-	popup.type = "Damage"
-	popup.position.x = combatant.position.x
-	popup.position.y = combatant.position.y
-	if evaded:
-		popup.text = "EVADED"
-	else:
-		popup.text = str(damage)
-	add_child(popup)
-
-func _on_combatant_healed(heal, combatant):
-	var popup = Label.new()
-	popup.rect_position.x = combatant.position.x - 40
-	popup.rect_position.y = combatant.position.y - 50
-	popup.text = str(heal)
-	add_child(popup)
-	yield(get_tree().create_timer(1), "timeout")
-	popup.queue_free()
-
 func _on_hitPoints_changed(combatant):
 	if combatant.is_in_group("Players"):
 		var character_info = $PlayerPanel/PlayerInfo.get_node(combatant.name)
 		character_info.get_node("Health").text = str(combatant.hitPoints) + "/" + str(combatant.maxHitPoints)
 		#$PlayerPanel/PlayerInfo/Character/Health.text = str(combatant.hitPoints) + "/" + str(combatant.maxHitPoints)
+
+func _on_stance_changed(action, combatant):
+	if combatant.is_in_group("Players"):
+		var character_info = $PlayerPanel/PlayerInfo.get_node(combatant.name)
+		character_info.get_node("Status").text = str(action["name"])
 
 func _on_state_changed(combatant):
 	#Display any state indicators (animations, etc.)
@@ -148,11 +127,3 @@ func _on_action_performed(action, target, combatant):
 	actionDialog = actionDialog.insert(0, combatant.get_name())
 	$DialogPopup/DialogText.text = actionDialog
 	$DialogPopup.show()
-
-func _on_status_added(status, combatant):
-	#TODO: show status icon
-	print(str(status["type"] + " added to " + combatant.get_name()))
-
-func _on_status_removed(status, combatant):
-	#TODO: remove status icon
-	print(str(status["type"] + " removed from " + combatant.get_name()))

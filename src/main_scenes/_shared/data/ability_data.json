@@ -19,7 +19,7 @@
 				"cancelEffect": "Stance",
 				"turnSkipped": false,
 				"unlockedAbilities": ["relentless_strikes"],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -38,7 +38,7 @@
 				"cancelEffect": "Stance",
 				"turnSkipped": false,
 				"unlockedAbilities": ["guard"],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -57,7 +57,7 @@
 				"cancelEffect": "Stance",
 				"turnSkipped": false,
 				"unlockedAbilities": ["evade"],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -126,7 +126,7 @@
 				"cancelEffect": "Damage",
 				"turnSkipped": false,
 				"unlockedAbilities": [],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -164,7 +164,7 @@
 				"cancelEffect": "Damage",
 				"turnSkipped": false,
 				"unlockedAbilities": [],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -202,7 +202,7 @@
 				"cancelEffect": null,
 				"turnSkipped": false,
 				"unlockedAbilities": [],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -221,7 +221,7 @@
 				"cancelEffect": null,
 				"turnSkipped": false,
 				"unlockedAbilities": [],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -252,7 +252,7 @@
 				"cancelEffect": null,
 				"turnSkipped": true,
 				"unlockedAbilities": [],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []
@@ -321,7 +321,7 @@
 				"cancelEffect": null,
 				"turnSkipped": true,
 				"unlockedAbilities": [],
-				"icon": null
+				"icon": "res://main_scenes/_shared/assets/icon.png"
 			}
 		],
 		"sprites": []

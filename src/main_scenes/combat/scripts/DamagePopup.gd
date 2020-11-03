@@ -16,11 +16,10 @@ func _ready():
 		"Damage":
 			label.set("custon_colors/font_color", Color(1, 1, 1))
 	var movement = randi() % 100 - 50
-	velocity = Vector2(movement, 50)
-#	if randi() % 10 < 5:
-#		velocity = Vector2(movement, 50)
-#	else:
-#		velocity = Vector2(movement, -50)
+	if randi() % 10 < 5:
+		velocity = Vector2(movement, 50)
+	else:
+		velocity = Vector2(movement, -50)
 
 func _process(delta):
 	position -= velocity * delta
