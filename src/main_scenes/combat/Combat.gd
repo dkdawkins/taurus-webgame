@@ -7,6 +7,7 @@ export (PackedScene) var non_player_combatant_scene
 #const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
 
 signal combat_finished(winners, losers)
+signal return_selection(combatant)
 
 var npc_data
 var pc_data
@@ -38,6 +39,7 @@ func initialize(npc_dict, pc_dict, ability_dict, combatant_keys):
 			combatant_data = pc_data[combatant_key]
 		$Combatants.add_child(combatant)
 		combatant.initialize(combatant_data, ability_data)
+		combatant.connect("combatant_selected", self, "_on_combatant_selected", [combatant])
 		set_combatant_position(combatant, combatant_data, positions_reserved)
 	$UI.initialize()
 	$TurnQueue.initialize()
@@ -111,6 +113,10 @@ func _on_queue_finished(pc_won, npc_won):
 			elif combatant.is_in_group("Enemies"):
 				winners.append(combatant)
 	finish_combat(winners, losers)
+
+
+func _on_combatant_selected(combatant):
+	emit_signal("return_selection", combatant)
 
 
 func finish_combat(winners, losers):

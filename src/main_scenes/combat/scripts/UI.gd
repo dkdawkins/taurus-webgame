@@ -13,6 +13,8 @@ func initialize():
 		combatant.connect("state_changed", self, "_on_state_changed", [combatant])
 		combatant.connect("stance_changed", self, "_on_stance_changed", [combatant])
 		combatant.connect("action_performed", self, "_on_action_performed", [combatant])
+		combatant.connect("awaiting_target", self, "_on_awaiting_target")
+		combatant.connect("acquired_target", self, "_on_acquired_target")
 		if combatant.is_in_group("Players"):
 			character_info = character_info_scene.instance()
 			character_info.name = combatant.name
@@ -93,6 +95,19 @@ func _on_Back_pressed():
 		if button.name != "Back":
 			button.queue_free()
 	$PlayerPanel/SecondaryButtons.hide()
+	$PlayerPanel/PrimaryButtons.show()
+
+
+func _on_awaiting_target():
+	$PlayerPanel/PrimaryButtons.hide()
+	for button in $PlayerPanel/SecondaryButtons/VBoxContainer.get_children():
+		if button.name != "Back":
+			button.queue_free()
+	$PlayerPanel/SecondaryButtons.hide()
+	$DialogPopup/DialogText.text = "Please select a target"
+	$DialogPopup.show()
+
+func _on_acquired_target():
 	$PlayerPanel/PrimaryButtons.show()
 
 func _on_Secondary_pressed(name):

@@ -21,13 +21,17 @@ var state = State.ALIVE setget set_state
 
 signal action_performed(actionDialog)
 signal stance_changed(action)
+signal combatant_selected
 signal turn_finished
+signal awaiting_target
+signal acquired_target
 #signal dead
 signal hitPoints_changed
 signal state_changed
 
 func initialize(combatant_stats, ability_dict):
 	sprites = load(combatant_stats["sprites"]).instance()
+	sprites.connect("input_event", self, "_on_input_event")
 	self.add_child(sprites)
 	self.set_name(combatant_stats["name"])
 	ability_data = ability_dict
@@ -73,6 +77,10 @@ func perform_action(actionName):
 	var endTurn = false
 	if action["name"] != "Flee":
 		if self.is_in_group("Players"):
+			if action["effects"][0]["target"] == "Single Enemy":
+				emit_signal("awaiting_target")
+				lastTarget = yield(get_parent().get_parent(), "return_selection")
+				emit_signal("acquired_target")
 			play_animation("Acting")
 		elif self.is_in_group("Enemies"):
 			play_animation("Acting", true)
@@ -177,6 +185,7 @@ func add_status(status):
 	var statusIcon = TextureRect.new()
 	statusIcon.texture = load(status["icon"])
 	statusIcon.rect_scale = Vector2(0.5, 0.5)
+	statusIcon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for _icon in status_icons.get_children():
 		offset += 25
 	statusIcon.rect_position.x += offset
@@ -219,6 +228,10 @@ func play_animation(name, reverse=false):
 	yield(sprites.get_node("AnimatedSprite"), "animation_finished")
 	if state != State.DEAD:
 		sprites.get_node("AnimatedSprite").set_animation("Idle")
+
+func _on_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+		emit_signal("combatant_selected")
 
 func get_action():
 	print("Base get_action function called; this should not happen")

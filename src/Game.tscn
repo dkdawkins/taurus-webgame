@@ -12,6 +12,7 @@ exploration_scene = NodePath("Exploration")
 combat_scene = NodePath("Combat")
 
 [node name="MainMenu" parent="." instance=ExtResource( 3 )]
+mouse_filter = 1
 
 [node name="Exploration" parent="." instance=ExtResource( 2 )]
 visible = true
