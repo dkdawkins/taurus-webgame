@@ -1,7 +1,5 @@
 extends "res://main_scenes/combat/scripts/Combatant.gd"
 
-#const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
-
 var combatActions = []
 var actionPatterns = []
 var currPattern = -1
@@ -23,7 +21,6 @@ func set_active(isCombatantActive):
 func get_action():
 	var actionToPerform
 	
-	#Wait for TurnQueue to catch up
 	yield(get_tree().create_timer(1.5), "timeout")
 	
 	if actionPatterns.empty():
@@ -49,26 +46,24 @@ func get_targets(type):
 		"Self":
 			targets.append(self)
 		"Single Enemy":
-			#TODO: randomize selected character
-			if lastTarget != null:
-				if lastTarget.is_in_group("Players"):
-					targets.append(lastTarget)
+			if lastSingleTarget != null:
+				if lastSingleTarget.is_in_group("Players"):
+					targets.append(lastSingleTarget)
 					return targets
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Players") and combatant.state == State.ALIVE:
 					targets.append(combatant)
-					lastTarget = combatant
+					lastSingleTarget = combatant
 					break
 		"Single Ally":
-			#TODO: randomize selected character
-			if lastTarget != null:
-				if lastTarget.is_in_group("Enemies"):
-					targets.append(lastTarget)
+			if lastSingleTarget != null:
+				if lastSingleTarget.is_in_group("Enemies"):
+					targets.append(lastSingleTarget)
 					return targets
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
 					targets.append(combatant)
-					lastTarget = combatant
+					lastSingleTarget = combatant
 					break
 		"All Enemies":
 			for combatant in get_parent().get_children():

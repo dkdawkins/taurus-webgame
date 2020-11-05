@@ -2,9 +2,6 @@ extends Node
 
 export (NodePath) var combatants_node
 
-#const PC = preload("res://main_scenes/combat/scripts/PlayerCombatant.gd")
-#const NPC = preload("res://main_scenes/combat/scripts/NonPlayerCombatant.gd")
-
 var queue = [] setget set_queue
 var active_combatant = null setget set_active_combatant
 
@@ -31,7 +28,6 @@ func remove(combatant):
 	for n in queue:
 		new_queue.append(n)
 	new_queue.remove(new_queue.find(combatant))
-	#combatant.queue_free() #Deletes node from scene tree (omit this if combatant data is needed post-combat)
 	self.queue = new_queue
 
 func set_queue(node_queue):
@@ -43,20 +39,18 @@ func set_queue(node_queue):
 		combatant.active = false
 	if (not queue.empty()) and (active_combatant == null):
 		self.active_combatant = queue[0]
-#	else:
-#		print("Error: Cannot set active combatant; no combatants have been defined in node_queue")
+
+func clear_queue():
+	queue.clear()
 
 func get_next_in_queue():
 	var previous_combatant = active_combatant
-	#Only shift the queue if the previous combatant was not shifted in the queue (this happens when the active combatant dies or flees)
 	if previous_combatant == queue[0]:
 		queue.pop_front()
 		queue.append(previous_combatant)
 	previous_combatant.active = false
 	self.active_combatant = queue[0]
-	return active_combatant #WARNING: this return statement is currently unused
 
-#Checks if there are still player or non-player characters remaining
 func check_queue_state():
 	var hasPCs = false
 	var hasNPCs = false
@@ -73,8 +67,7 @@ func check_queue_state():
 func set_active_combatant(new_combatant):
 	active_combatant = new_combatant
 	active_combatant.active = true
-#	emit_signal("active_combatant_changed", active_combatant)
 
 func _on_state_changed(combatant):
 	if (combatant.state == combatant.State.DEAD) or (combatant.state == combatant.State.FLED):
-		remove(combatant) #WARNING: this will break if the current active combatant is removed
+		remove(combatant)

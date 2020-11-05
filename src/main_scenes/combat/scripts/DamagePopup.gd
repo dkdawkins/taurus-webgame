@@ -1,7 +1,7 @@
 extends Position2D
 
 onready var label = get_node("Label")
-#onready var tween = get_node("Tween") #Use tween if adding interpolation
+
 var text = ""
 var type = ""
 

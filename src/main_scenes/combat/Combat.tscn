@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://main_scenes/combat/Combat.gd" type="Script" id=1]
 [ext_resource path="res://main_scenes/combat/scenes/UI.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://main_scenes/combat/scripts/TurnQueue.gd" type="Script" id=4]
 [ext_resource path="res://main_scenes/combat/scenes/NonPlayerCombatant.tscn" type="PackedScene" id=5]
 [ext_resource path="res://main_scenes/combat/scenes/Positions.tscn" type="PackedScene" id=6]
+[ext_resource path="res://main_scenes/_shared/assets/240376__edtijo__happy-8bit-pixel-adenture.wav" type="AudioStream" id=7]
+[ext_resource path="res://main_scenes/combat/scripts/BackgroundMusic.gd" type="Script" id=8]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 1 )
@@ -27,6 +29,13 @@ script = ExtResource( 4 )
 combatants_node = NodePath("../Combatants")
 
 [node name="Positions" parent="." instance=ExtResource( 6 )]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -20.0
+autoplay = true
+script = ExtResource( 8 )
 [connection signal="queue_finished" from="TurnQueue" to="." method="_on_queue_finished"]
+[connection signal="finished" from="BackgroundMusic" to="BackgroundMusic" method="_on_BackgroundMusic_finished"]
 
 [editable path="UI"]

@@ -3,16 +3,21 @@ extends Node2D
 enum State {ALIVE, DEAD, FLED}
 
 onready var status_icons = get_node("StatusIcons")
+onready var sfx = get_node("CombatantSFX")
+
 var damage_popup = preload("res://main_scenes/combat/scenes/DamagePopup.tscn")
 
-#declare default combatant stats here
+var damaged_sound = preload("res://main_scenes/_shared/assets/524046__monirec__generic-impact.wav")
+var attacking_sound = preload("res://main_scenes/_shared/assets/524046__monirec__generic-impact.wav")
+var dead_sound = preload("res://main_scenes/_shared/assets/524046__monirec__generic-impact.wav")
+
 var hitPoints = 1
 var maxHitPoints = 1
 var attackPoints = 1
 var defensePoints = 1
 var evadeChance = 0
-var statuses = []	#Stores any statuses currently affecting the combatant
-var lastTarget = null	#Stores the last target for actions with multiple effects
+var statuses = []
+var lastSingleTarget = null
 
 var sprites
 var ability_data
@@ -25,7 +30,6 @@ signal combatant_selected
 signal turn_finished
 signal awaiting_target
 signal acquired_target
-#signal dead
 signal hitPoints_changed
 signal state_changed
 
@@ -42,28 +46,24 @@ func initialize(combatant_stats, ability_dict):
 	evadeChance = combatant_stats["ec"]
 
 func set_active(isCombatantActive):
-	#If combatant has a status that skips their turn, set active to false
-	#and end their turn after applying other statuses
 	active = isCombatantActive
-	#Update status durations and expire statuses that reach zero
+	#Update statuses
 	if active:
 		var turnSkipped = false
 		var statusesToRemove = []
 		for status in statuses:
-			if status["type"] == "Stance":	#Do not automatically remove stances
+			if status["type"] == "Stance":
 				continue
 			status["length"] -= 1
 			if status["length"] <= 0:
 				statusesToRemove.append(status)
 			else:
-				#apply any DoT or TurnSkipped effects (DoT has not been implemented yet)
 				if status["turnSkipped"] == true:
 					turnSkipped = true
 		for status in statusesToRemove:
 			expire_status(status)
 		if turnSkipped:
 			active = false
-			#Wait for TurnQueue to catch up
 			yield(get_tree().create_timer(0.5), "timeout")
 			emit_signal("turn_finished")
 
@@ -79,10 +79,12 @@ func perform_action(actionName):
 		if self.is_in_group("Players"):
 			if action["effects"][0]["target"] == "Single Enemy":
 				emit_signal("awaiting_target")
-				lastTarget = yield(get_parent().get_parent(), "return_selection")
+				lastSingleTarget = yield(get_parent().get_parent(), "return_selection")
 				emit_signal("acquired_target")
+			play_sound(attacking_sound)
 			play_animation("Acting")
 		elif self.is_in_group("Enemies"):
+			play_sound(attacking_sound)
 			play_animation("Acting", true)
 		for effect in action["effects"]:
 			if effect["type"] != "Stance":
@@ -131,10 +133,10 @@ func perform_action(actionName):
 		elif self.is_in_group("Enemies"):
 			#Remove this enemy from combat
 			self.state = State.FLED
-	emit_signal("action_performed", action, lastTarget)
+	emit_signal("action_performed", action, lastSingleTarget)
 	if stanceChanged:
 		emit_signal("stance_changed", action)
-	lastTarget = null
+	lastSingleTarget = null
 	if endTurn:
 		emit_signal("turn_finished")
 	elif self.is_in_group("Enemies"):
@@ -151,8 +153,10 @@ func take_damage(damage):
 			emit_signal("hitPoints_changed")
 			if (hitPoints <= 0) and (prevHitPoints > 0):
 				self.state = State.DEAD
+				play_sound(dead_sound)
 				play_animation("Death")
 			elif (hitPoints > 0):
+				play_sound(damaged_sound)
 				play_animation("Damaged")
 		else:
 			actualDamage = 0
@@ -196,17 +200,11 @@ func add_status(status):
 func expire_status(status):
 	var index = statuses.find(status)
 	var iconToRemove = status_icons.get_child(index)
-#	iconToRemove.queue_free()
 	status_icons.remove_child(iconToRemove)
 	for n in range(index, status_icons.get_child_count()):
 		status_icons.get_child(n).rect_position.x -= 25
 	for n in range(status["numHits"]):
 		match status["statAffected"]:
-#			"hitPoints":
-#				if status["type"] == "Damage":
-#					heal_damage(attackPoints*(status["modifier"]/50))
-#				elif status["type"] == "Heal":
-#					take_damage(attackPoints*(status["modifier"]/50))
 			"maxHitPoints":
 				maxHitPoints = maxHitPoints/(status["modifier"]/50)
 				if maxHitPoints < hitPoints:
@@ -228,6 +226,10 @@ func play_animation(name, reverse=false):
 	yield(sprites.get_node("AnimatedSprite"), "animation_finished")
 	if state != State.DEAD:
 		sprites.get_node("AnimatedSprite").set_animation("Idle")
+
+func play_sound(sound_effect):
+	sfx.stream = sound_effect
+	sfx.play()
 
 func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():

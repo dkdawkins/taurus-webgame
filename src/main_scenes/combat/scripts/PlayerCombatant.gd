@@ -39,21 +39,27 @@ func get_targets(type):
 		"Self":
 			targets.append(self)
 		"Single Enemy":
-			if lastTarget != null:
-				if lastTarget.is_in_group("Enemies"):
-					targets.append(lastTarget)
+			if lastSingleTarget != null:
+				if lastSingleTarget.is_in_group("Enemies"):
+					targets.append(lastSingleTarget)
 					return targets
-			var target = get_node("../../UI").set_single_enemy_target()
-			targets.append(target)
-			lastTarget = target
+			#Defaults to first enemy target
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Enemies") and combatant.state == combatant.State.ALIVE:
+					targets.append(combatant)
+					lastSingleTarget = combatant
+					break
 		"Single Ally":
-			if lastTarget != null:
-				if lastTarget.is_in_group("Players"):
-					targets.append(lastTarget)
+			if lastSingleTarget != null:
+				if lastSingleTarget.is_in_group("Players"):
+					targets.append(lastSingleTarget)
 					return targets
-			var target = get_node("../../UI").set_single_ally_target()
-			targets.append(target)
-			lastTarget = target
+			#Defaults to first ally
+			for combatant in get_parent().get_children():
+				if combatant.is_in_group("Players") and combatant.state == combatant.State.ALIVE:
+					targets.append(combatant)
+					lastSingleTarget = combatant
+					break
 		"All Enemies":
 			for combatant in get_parent().get_children():
 				if combatant.is_in_group("Enemies") and combatant.state == State.ALIVE:
