@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://main_scenes/_shared/assets/generic_tiles.png" type="Texture" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32.1073, 32.1858 )
+
+[node name="TileSetSource" type="Node"]
+
+[node name="BasicGround" type="Sprite" parent="."]
+position = Vector2( 40, 43 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
+
+[node name="BasicObstacle" type="Sprite" parent="."]
+position = Vector2( 128.674, 44.1225 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 128, 0, 64, 64 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="BasicObstacle"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicObstacle/StaticBody2D"]
+visible = false
+shape = SubResource( 1 )
+
+[node name="BasicEntrance" type="Sprite" parent="."]
+position = Vector2( 222.961, 44.1225 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 128, 64, 64 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="BasicEntrance"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicEntrance/StaticBody2D"]
+visible = false
+shape = SubResource( 1 )
+
+[node name="BasicInteractable" type="Sprite" parent="."]
+position = Vector2( 316.126, 45.2449 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 128, 128, 64, 64 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="BasicInteractable"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicInteractable/StaticBody2D"]
+visible = false
+shape = SubResource( 1 )

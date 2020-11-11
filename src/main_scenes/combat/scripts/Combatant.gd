@@ -91,7 +91,7 @@ func perform_action(actionName):
 				endTurn = true
 			var targets = get_targets(effect["target"])
 			for target in targets:
-				for n in range(effect["numHits"]):
+				for _n in range(effect["numHits"]):
 					if effect["type"] == "Stance":
 						stanceChanged = true
 					match effect["statAffected"]:
@@ -203,7 +203,7 @@ func expire_status(status):
 	status_icons.remove_child(iconToRemove)
 	for n in range(index, status_icons.get_child_count()):
 		status_icons.get_child(n).rect_position.x -= 25
-	for n in range(status["numHits"]):
+	for _n in range(status["numHits"]):
 		match status["statAffected"]:
 			"maxHitPoints":
 				maxHitPoints = maxHitPoints/(status["modifier"]/50)

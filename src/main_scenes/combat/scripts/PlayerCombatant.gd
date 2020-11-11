@@ -6,7 +6,7 @@ var specialAbilities = []
 var stances = []
 var items = []
 
-signal queue_finished(pc_state, npc_state)
+#signal queue_finished(pc_state, npc_state)
 
 func initialize(combatant_stats, ability_dict):
 	.initialize(combatant_stats, ability_dict)
