@@ -15,7 +15,7 @@ combat_scene = NodePath("Combat")
 mouse_filter = 1
 
 [node name="Exploration" parent="." instance=ExtResource( 2 )]
-visible = true
 
 [node name="Combat" parent="." instance=ExtResource( 1 )]
+visible = false
 [connection signal="combat_finished" from="Combat" to="." method="_on_combat_finished"]

@@ -24,10 +24,13 @@ func _ready():
 	#FOR TESTING ONLY
 	##################
 	
-	var combatants = ["wolf", "wolf", "wolf", "wolf", "wolf", "david"]
-#	var combatants = ["wolf", "wolf", "david"]
-#	var combatants = ["knight", "david"]
-	start_combat(combatants)
+	add_child(exploration_scene)
+	exploration_scene.show()
+	
+#	var combatants = ["wolf", "wolf", "wolf", "wolf", "wolf", "david"]
+##	var combatants = ["wolf", "wolf", "david"]
+##	var combatants = ["knight", "david"]
+#	start_combat(combatants)
 	
 	##################
 
