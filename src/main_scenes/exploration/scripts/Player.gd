@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export var speed = 5.0
-export var tileSize = 64.0
+export var tileSize = 64.000
 
 onready var sprite = $AnimatedSprite
 
@@ -10,7 +10,7 @@ var counter = 0.0
 
 var moving = false
 
-#TODO: refactor to fix 1-frame stops
+
 func _process(delta):
 	if not moving:
 		set_direction()
@@ -37,9 +37,11 @@ func get_direction():
 func move(delta):
 	counter += delta * speed
 	move_and_collide((direction*tileSize*(delta*speed)))
+	position = position.round()
 	if counter >= 1.0:
 		counter = 0.0
-		moving = false
+		if get_direction() != direction:
+			moving = false
 
 func animate(direction):
 	if direction.x != 0 or direction.y != 0:

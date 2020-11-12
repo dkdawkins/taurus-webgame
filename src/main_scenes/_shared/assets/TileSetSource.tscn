@@ -3,7 +3,7 @@
 [ext_resource path="res://main_scenes/_shared/assets/generic_tiles.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32.1073, 32.1858 )
+extents = Vector2( 32, 32 )
 
 [node name="TileSetSource" type="Node"]
 
