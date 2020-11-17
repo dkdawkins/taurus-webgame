@@ -88,7 +88,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 32, 32 )
+extents = Vector2( 31.9, 31.9 )
 
 [node name="Player" type="KinematicBody2D"]
 collision/safe_margin = 0.001

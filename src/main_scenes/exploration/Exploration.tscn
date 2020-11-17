@@ -16,6 +16,7 @@ tile_data = PoolIntArray( -131079, 1, 0, -131078, 1, 0, -131077, 1, 0, -131076, 
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 32, 32 )
+collision/safe_margin = 0.005
 
 [node name="SelectableObject" type="Sprite" parent="."]
 position = Vector2( -288, 32 )
