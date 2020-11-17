@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 enum Facing {LEFT, RIGHT, UP, DOWN}
 
+signal object_selected(object)
+
 export var speed = 5.0
 export var tileSize = 64.000
 
@@ -61,8 +63,8 @@ func get_action():
 				collision = move_and_collide((Vector2(0,-1)*tileSize), true, true, true)
 			_:
 				collision = move_and_collide((Vector2(0,1)*tileSize), true, true, true)
-		if collision != null:
-			print(collision.collider.name)
+		if collision != null and collision.collider.get_parent().is_in_group("SelectableObjects"):
+			emit_signal("object_selected", collision.collider.get_parent())
 
 func move(delta):
 	counter += delta * speed
